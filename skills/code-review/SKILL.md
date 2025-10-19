@@ -1,6 +1,6 @@
 ---
 name: Code Review Orchestrator
-description: Delegate specialized reviews to subagents and synthesize their findings. Use when reviewing skills, CLAUDE.md, slash commands, or AI prompt content.
+description: Delegate specialized reviews to subagents and synthesize their findings. Use when reviewing code.
 ---
 
 # Code Review Orchestrator
@@ -30,17 +30,14 @@ Determine scope:
 Map content type to review skills:
 
 **For AI Prompt Content** (skills, CLAUDE.md, commands):
-- `collaboration/reviews/prompt-brevity/` - Token efficiency and clarity
+- `prompt-brevity/SKILL.md` - Token efficiency and clarity
 
 **For Python Files** (skills, CLAUDE.md, commands):
-- `collaboration/reviews/python-code-review-types/` - Ensuring python types are used correctly.
+- `python-code-review-types/SKILL.md` - Ensuring python types are used correctly.
 
 **For all Pull Request Files** (changed files in PRs):
-- `collaboration/reviews/pr-file-review/` - Identify unnecessary test artifacts and temporary files
+- `pr-file-review/SKILL.md` - Identify unnecessary test artifacts and temporary files
   - Give this agent a list of files in the PR or a command to find the list of files.
-
-**For Future Review Types** (extensible):
-- Add new skills in `collaboration/reviews/` as needed
 
 **IMPORTANT**: If no specific review skill exists for the file type being reviewed, **STOP** and inform the user:
 
