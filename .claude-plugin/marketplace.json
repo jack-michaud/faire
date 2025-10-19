@@ -36,6 +36,32 @@
         "debugging",
         "workflows"
       ]
+    },
+    {
+      "name": "browser-testing",
+      "source": "./browser-testing",
+      "description": "Browser testing and automation plugin with Playwright MCP integration for end-to-end testing.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "browser-testing",
+        "playwright",
+        "e2e-testing",
+        "automation",
+        "mcp"
+      ],
+      "category": "testing",
+      "tags": [
+        "browser",
+        "testing",
+        "playwright",
+        "automation"
+      ]
     }
   ]
 }
