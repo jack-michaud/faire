@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "faire",
-      "source": "./",
+      "name": "jack-software",
+      "source": "./jack-software",
       "description": "A collection of development skills that help you follow best practices for test-driven development, code review, debugging, systematic problem-solving, and more.",
       "version": "1.0.0",
       "author": {
