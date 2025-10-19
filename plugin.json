@@ -1,0 +1,7 @@
+{
+  "name": "faire",
+  "version": "1.0.0",
+  "description": "A collection of development skills for test-driven development, code review, debugging, and software engineering best practices.",
+  "author": "Jack Michaud",
+  "skills": ["skills/"]
+}
