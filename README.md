@@ -6,14 +6,51 @@
 
 ## Installation
 
-Install this plugin by adding it to your Claude Code configuration:
+### From Marketplace (Recommended)
+
+Add the faire marketplace to your Claude Code configuration:
+
+```bash
+/plugin marketplace add jack-michaud/faire
+```
+
+Then install the faire plugin:
+
+```bash
+/plugin install faire@faire
+```
+
+Or browse and install interactively:
+
+```bash
+/plugin
+```
+
+### Manual Installation
+
+Clone the repository directly:
 
 ```bash
 # Clone the repository
 git clone https://github.com/jack-michaud/faire.git ~/.claude/plugins/faire
 ```
 
-Or install from the Claude Code plugin marketplace (coming soon).
+### For Teams
+
+Configure your `.claude/settings.json` to automatically add the marketplace:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "faire": {
+      "source": {
+        "source": "github",
+        "repo": "jack-michaud/faire"
+      }
+    }
+  }
+}
+```
 
 ## What's Included
 
