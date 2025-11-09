@@ -1,0 +1,7 @@
+{
+  "name": "supabase",
+  "version": "1.0.0",
+  "description": "Supabase operations plugin with specialized agent for database migrations, RLS policies, Edge Functions, and more.",
+  "author": "Jack Michaud",
+  "license": "MIT"
+}

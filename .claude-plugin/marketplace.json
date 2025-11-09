@@ -62,6 +62,34 @@
         "playwright",
         "automation"
       ]
+    },
+    {
+      "name": "supabase",
+      "source": "./supabase",
+      "description": "Supabase operations plugin with specialized agent for database migrations, RLS policies, Edge Functions, and Realtime features.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "supabase",
+        "database",
+        "postgresql",
+        "rls",
+        "edge-functions",
+        "realtime",
+        "migrations"
+      ],
+      "category": "development",
+      "tags": [
+        "supabase",
+        "database",
+        "backend",
+        "postgresql"
+      ]
     }
   ]
 }
