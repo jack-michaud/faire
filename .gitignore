@@ -43,3 +43,6 @@ htmlcov/
 
 # Logs
 *.log
+
+logs/post_tool_use.json
+logs/pre_tool_use.json

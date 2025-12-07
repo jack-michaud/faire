@@ -119,6 +119,36 @@ Runs at session termination. Use for:
 
 ## Configuration
 
+### Path Resolution with CLAUDE_PROJECT_DIR
+
+**Always use `$CLAUDE_PROJECT_DIR` to reference hook scripts.** Claude Code sets this environment variable to your project root, ensuring hooks work regardless of the current working directory.
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/check-style.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Why this matters:**
+- Claude's CWD can change during execution
+- Relative paths like `./scripts/hook.sh` become fragile
+- `$CLAUDE_PROJECT_DIR` always points to your project root
+- Ensures hooks work from any directory
+
+**Note:** The environment variable is only available when Claude Code spawns the hook command.
+
 ### Settings File Integration
 
 Add hooks to `.claude/settings.json`:
@@ -132,7 +162,7 @@ Add hooks to `.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "./scripts/pre-tool-hook.sh"
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/pre-tool-hook.sh"
           }
         ]
       }
@@ -143,7 +173,7 @@ Add hooks to `.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "./scripts/validate-edits.sh"
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/validate-edits.sh"
           }
         ]
       }
@@ -197,7 +227,7 @@ exit 0  # Don't block, just warn
 {
   "PreToolUse": [{
     "matcher": "Edit|Write",
-    "hooks": [{"type": "command", "command": "./scripts/pre-tool-git-check.sh"}]
+    "hooks": [{"type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/pre-tool-git-check.sh"}]
   }]
 }
 ```
@@ -246,6 +276,12 @@ exit 0
 ```
 
 ## Best Practices
+
+### Path Configuration
+- ✅ **Do**: Always use `$CLAUDE_PROJECT_DIR` for hook script paths
+- ✅ **Do**: Quote the path: `"$CLAUDE_PROJECT_DIR"/scripts/hook.sh`
+- ❌ **Don't**: Use relative paths like `./scripts/hook.sh` (breaks if CWD changes)
+- ❌ **Don't**: Use absolute paths like `/home/user/project/...` (not portable)
 
 ### Design
 - ✅ **Do**: Keep hooks fast (<1 second)
@@ -337,6 +373,9 @@ python -m py_compile "$FILE_PATH"
 - Update dashboards
 
 ## Anti-patterns
+
+- ❌ **Don't**: Use relative or absolute paths for hook commands
+  - ✅ **Do**: Use `$CLAUDE_PROJECT_DIR` for portable, reliable paths
 
 - ❌ **Don't**: Use hooks for long-running tasks
   - ✅ **Do**: Keep hooks under 1 second

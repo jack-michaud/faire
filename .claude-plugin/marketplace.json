@@ -90,6 +90,32 @@
         "backend",
         "postgresql"
       ]
+    },
+    {
+      "name": "logs",
+      "source": "./logs",
+      "description": "Logging hooks and commands for tracking Claude Code tool usage",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "logging",
+        "hooks",
+        "monitoring",
+        "tool-usage",
+        "debugging"
+      ],
+      "category": "development",
+      "tags": [
+        "logging",
+        "hooks",
+        "monitoring",
+        "debugging"
+      ]
     }
   ]
 }

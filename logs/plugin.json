@@ -1,0 +1,7 @@
+{
+  "name": "logs",
+  "version": "1.0.0",
+  "description": "Logging hooks and commands for tracking Claude Code tool usage",
+  "author": "Jack Michaud",
+  "license": "MIT"
+}
