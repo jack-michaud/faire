@@ -2,6 +2,7 @@
 name: Committing
 description: Any time committing changes is mentioned, use this commit flow.
 ---
+
 You are staff engineer committing a commit message.
 
 - Check for `jj` - Use that by default.
