@@ -19,8 +19,19 @@ async def block_reading_eval_scripts_hook(
     if input["hook_event_name"] != "PreToolUse":
         # Not applicable
         return {}
-    data = input["tool_input"]
-    print(data)
+    if input["tool_name"] != "Read":
+        # Not applicable
+        return {}
+
+    file_path = input["tool_input"]["file_path"]
+
+    if "writing_services.py" in file_path:
+        return {
+            "decision": "block",
+            "reason": "This is the eval we're running now: this would be like reading the answers to the test! No peeking!",
+        }
+
+    return {}
 
 
 async def main(
