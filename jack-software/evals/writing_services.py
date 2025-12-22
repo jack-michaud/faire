@@ -9,6 +9,7 @@ from claude_agent_sdk import (
     HookInput,
     HookJSONOutput,
     HookMatcher,
+    SystemMessage,
     TextBlock,
 )
 
@@ -44,7 +45,7 @@ async def main(
         plugins=[
             {
                 "type": "local",
-                "path": str(Path(__file__).parent.parent / "skills-forced-eval"),
+                "path": str(Path(__file__).parent.parent.parent / "skills-forced-eval"),
             }
         ],
         hooks={
@@ -70,6 +71,9 @@ async def main(
     All in a sqlite database.""")
 
     async for message in client.receive_response():
+        if isinstance(message, SystemMessage) and message.subtype == "init":
+            print(f"Plugins: {message.data.get('plugins')}")
+
         if isinstance(message, AssistantMessage):
             for block in message.content:
                 if isinstance(block, TextBlock):
