@@ -41,6 +41,12 @@ async def main(
         model="haiku",
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
+        plugins=[
+            {
+                "type": "local",
+                "path": str(Path(__file__).parent.parent / "skills-forced-eval"),
+            }
+        ],
         hooks={
             "PreToolUse": [
                 HookMatcher(matcher="Read", hooks=[block_reading_eval_scripts_hook])
