@@ -39,7 +39,7 @@ async def skills_forced_eval_hook(
     input: HookInput, tool_use_id: str | None, context: HookContext
 ) -> HookJSONOutput:
     if input["hook_event_name"] != "UserPromptSubmit":
-        return
+        return {}
 
     cmd = str(
         Path(__file__).parent.parent.parent
@@ -53,6 +53,25 @@ async def skills_forced_eval_hook(
     stdout_str = stdout_bytes.decode("utf-8")
 
     return {"reason": stdout_str}
+
+
+class Check:
+    _passed: bool
+    _value: bool
+
+    def __init__(self, default: bool, passed: bool) -> None:
+        self._passed = passed
+        self._value = default
+
+    def mark(self, value: bool) -> None:
+        self._value = value
+
+    def did_pass(self) -> bool:
+        return self._value == self._passed
+
+
+class EvalResult:
+    used_service_skill = Check(default=False, passed=True)
 
 
 async def main(
@@ -69,6 +88,10 @@ async def main(
             #    "type": "local",
             #    "path": str(Path(__file__).parent.parent.parent / "skills-forced-eval"),
             # }
+            {
+                "type": "local",
+                "path": str(Path(__file__).parent.parent.parent / "jack-software"),
+            }
         ],
         hooks={
             "PreToolUse": [
