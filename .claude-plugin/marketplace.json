@@ -116,6 +116,30 @@
         "monitoring",
         "debugging"
       ]
+    },
+    {
+      "name": "skills-forced-eval",
+      "source": "./skills-forced-eval",
+      "description": "Hooks to enforce explicit skill evaluation before implementation",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "hooks",
+        "skills",
+        "skill-evaluation",
+        "workflow"
+      ],
+      "category": "development",
+      "tags": [
+        "hooks",
+        "skills",
+        "workflow"
+      ]
     }
   ]
 }
