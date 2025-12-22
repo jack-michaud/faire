@@ -71,8 +71,12 @@ async def main(
     All in a sqlite database.""")
 
     async for message in client.receive_response():
-        if isinstance(message, SystemMessage) and message.subtype == "init":
-            print(f"Plugins: {message.data.get('plugins')}")
+        print(message)
+        if isinstance(message, SystemMessage):
+            if message.subtype == "init":
+                print(f"Plugins: {message.data.get('plugins')}")
+                continue
+            print(message)
 
         if isinstance(message, AssistantMessage):
             for block in message.content:
