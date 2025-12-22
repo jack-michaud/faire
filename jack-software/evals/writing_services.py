@@ -5,8 +5,22 @@ from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
     ClaudeSDKClient,
+    HookContext,
+    HookInput,
+    HookJSONOutput,
+    HookMatcher,
     TextBlock,
 )
+
+
+async def block_reading_eval_scripts_hook(
+    input: HookInput, tool_use_id: str | None, context: HookContext
+) -> HookJSONOutput:
+    if input["hook_event_name"] != "PreToolUse":
+        # Not applicable
+        return {}
+    data = input["tool_input"]
+    print(data)
 
 
 async def main(
@@ -16,6 +30,11 @@ async def main(
         model="haiku",
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
+        hooks={
+            "PreToolUse": [
+                HookMatcher(matcher="Read", hooks=[block_reading_eval_scripts_hook])
+            ]
+        },
         # max_turns=2,
     )
 
