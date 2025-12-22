@@ -35,6 +35,26 @@ async def block_reading_eval_scripts_hook(
     return {}
 
 
+async def skills_forced_eval_hook(
+    input: HookInput, tool_use_id: str | None, context: HookContext
+) -> HookJSONOutput:
+    if input["hook_event_name"] != "UserPromptSubmit":
+        return
+
+    cmd = str(
+        Path(__file__).parent.parent.parent
+        / "skills-forced-eval"
+        / "hooks"
+        / "skills-forced-eval.sh"
+    )
+    process = await asyncio.subprocess.create_subprocess_shell(cmd)
+    assert process.stdout
+    stdout_bytes = await process.stdout.read()
+    stdout_str = stdout_bytes.decode("utf-8")
+
+    return {"reason": stdout_str}
+
+
 async def main(
     gym_project_directory: Path,
 ) -> None:
@@ -43,15 +63,20 @@ async def main(
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
         plugins=[
-            {
-                "type": "local",
-                "path": str(Path(__file__).parent.parent.parent / "skills-forced-eval"),
-            }
+            # TODO: Local plugins' hooks are completely busted. I will make a manual hook instead.
+            # https://github.com/anthropics/claude-code/issues/12151
+            # {
+            #    "type": "local",
+            #    "path": str(Path(__file__).parent.parent.parent / "skills-forced-eval"),
+            # }
         ],
         hooks={
             "PreToolUse": [
                 HookMatcher(matcher="Read", hooks=[block_reading_eval_scripts_hook])
-            ]
+            ],
+            "UserPromptSubmit": [
+                HookMatcher(matcher="*", hooks=[skills_forced_eval_hook])
+            ],
         },
         # max_turns=2,
     )
