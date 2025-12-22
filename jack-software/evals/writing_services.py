@@ -20,6 +20,7 @@ async def main(
     )
 
     client = ClaudeSDKClient(options=options)
+    await client.connect()
 
     await client.query("""Write a logging service in jack-software/evals/logger.py that stores eval run results.
     We should be able to store:
