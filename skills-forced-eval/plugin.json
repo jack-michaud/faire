@@ -1,6 +1,6 @@
 {
   "name": "skills-forced-eval",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hooks to enforce explicit skill evaluation before implementation",
   "author": "Jack Michaud",
   "hooks": "hooks/"

@@ -121,7 +121,7 @@
       "name": "skills-forced-eval",
       "source": "./skills-forced-eval",
       "description": "Hooks to enforce explicit skill evaluation before implementation",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Jack Michaud"
       },
