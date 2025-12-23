@@ -1,6 +1,6 @@
 # faire
 
-**faire** is a [Claude Plugin Marketplace](https://code.claude.com/docs/en/plugin-marketplaces) of tested and evaluated software development plugins that help Claude follow high quality software 
+**[faire](https://www.wordreference.com/fren/faire)** is a [Claude Plugin Marketplace](https://code.claude.com/docs/en/plugin-marketplaces) of tested and evaluated software development plugins that help Claude create high quality software.
 
 > Anything post 1.0 is tested and evaluated. Anything 0.X is in active development.
 
@@ -56,7 +56,8 @@ Configure your `.claude/settings.json` to automatically add the marketplace:
 > - Cognition (which created Devin) ([their eval for devin](https://cognition.ai/blog/evaluating-coding-agents))
 > - ARC Prize Foundation
 > - spences10 (who created [svelte-claude-skills](https://github.com/spences10/svelte-claude-skills) with an eval for hooks)
-> who are data driven and transparent.
+>
+> These people and teams are data driven and transparent about the quality of AI systems.
 
 I will fill this out as I become more opinionated about this. 
 
