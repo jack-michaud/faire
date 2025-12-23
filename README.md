@@ -2,6 +2,7 @@
 
 **[faire](https://www.wordreference.com/fren/faire)** is a [Claude Plugin Marketplace](https://code.claude.com/docs/en/plugin-marketplaces) of tested and evaluated software development plugins that help Claude create high quality software.
 
+> [!IMPORTANT]
 > Anything post 1.0 is tested and evaluated. Anything 0.X is in active development.
 
 See [this section](#evaluating-claude-code-plugins) for more details on the testing and evaluation strategy.
