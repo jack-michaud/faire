@@ -1,6 +1,6 @@
 {
   "name": "browser-testing",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Browser testing and automation plugin with Playwright MCP integration for end-to-end testing.",
   "author": "Jack Michaud",
   "mcpServers": [
