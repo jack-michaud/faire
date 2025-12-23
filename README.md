@@ -1,8 +1,10 @@
 # faire
 
-> A Claude Code plugin for software engineering skills
+**faire** is a [Claude Plugin Marketplace](https://code.claude.com/docs/en/plugin-marketplaces) of tested and evaluated software development plugins that help Claude follow high quality software 
 
-**faire** is a collection of development skills that help you follow best practices for test-driven development, code review, debugging, systematic problem-solving, and more.
+> Anything post 1.0 is tested and evaluated. Anything 0.X is in active development.
+
+See [this section](#evaluating-claude-code-plugins) for more details on the testing and evaluation strategy.
 
 ## Installation
 
@@ -26,14 +28,6 @@ Or browse and install interactively:
 /plugin
 ```
 
-### Manual Installation
-
-Clone the repository directly:
-
-```bash
-# Clone the repository
-git clone https://github.com/jack-michaud/faire.git ~/.claude/plugins/faire
-```
 
 ### For Teams
 
@@ -52,42 +46,23 @@ Configure your `.claude/settings.json` to automatically add the marketplace:
 }
 ```
 
-## What's Included
+## Evaluating Claude Code plugins
 
-### Testing Skills
-- **Test-Driven Development**: RED-GREEN-REFACTOR cycle for implementing features
-- More testing skills coming soon...
+> [!NOTE]
+> "this is a gamechanger, trust me bro"
+> Creating evaluations to systematically measure the performance of AI systems is
+> how we stay objective to the real impact of AI tools.
+> I'm inspired by people and teams like:
+> - Cognition (which created Devin) ([their eval for devin](https://cognition.ai/blog/evaluating-coding-agents))
+> - ARC Prize Foundation
+> - spences10 (who created [svelte-claude-skills](https://github.com/spences10/svelte-claude-skills) with an eval for hooks)
+> who are data driven and transparent.
 
-### Collaboration Skills
-- **SOLID Principles Review**: Code review focusing on SOLID principles
-- **PR File Review**: Review pull request files for artifacts and quality
-- More collaboration skills coming soon...
+I will fill this out as I become more opinionated about this. 
 
-### Debugging Skills
-- Skills for systematic debugging and problem-solving
+I'm currently working on a python [service](http://gorodinski.com/blog/2012/04/14/services-in-domain-driven-design-ddd/) writing skill
+with an eval [here](./jack-software/evals/).
 
-### Workflow Skills
-- Skills for common development workflows
-
-### Meta Skills
-- **Writing Skills**: How to create new skills effectively
-
-## Usage
-
-Skills are automatically discovered by Claude when this plugin is installed. Claude will use relevant skills based on your requests.
-
-For example:
-- When implementing a feature, Claude will use the Test-Driven Development skill
-- When reviewing code, Claude will use code review skills
-- When debugging, Claude will use systematic debugging approaches
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests with:
-- New skills
-- Improvements to existing skills
-- Bug fixes
-- Documentation enhancements
 
 ## License
 

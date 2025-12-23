@@ -2,6 +2,8 @@
 
 Logging hooks and commands for tracking Claude Code tool usage.
 
+Heavily inspired by [disler's Claude Hooks repo](https://github.com/disler/claude-code-hooks-mastery).
+
 ## Features
 
 - **Automatic Logging**: Logs all tool calls before and after execution
