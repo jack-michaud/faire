@@ -1,4 +1,7 @@
 import asyncio
+import subprocess
+import time
+from datetime import datetime
 from pathlib import Path
 
 from claude_agent_sdk import (
@@ -9,9 +12,13 @@ from claude_agent_sdk import (
     HookInput,
     HookJSONOutput,
     HookMatcher,
+    ResultMessage,
     SystemMessage,
     TextBlock,
+    ToolUseBlock,
 )
+
+from .hidden_logger import EvalRunResult, Logger
 
 BLOCKED_FILES = [
     "writing_services.py",
@@ -78,10 +85,40 @@ class Check:
 class EvalResult:
     used_service_skill = Check(default=False, passed=True)
 
+    def to_dict(self) -> dict:
+        """Convert eval results to a dictionary for logging."""
+        return {
+            "used_service_skill": self.used_service_skill.did_pass(),
+        }
+
+
+def get_git_revision() -> str:
+    """Get current jj commit hash."""
+    # TODO: Should perhaps put this behind a protocol or strategy pattern
+    # so we can use git too.
+    try:
+        result = subprocess.run(
+            ["jj", "log", "-r", "@", "--no-graph", "-T", "commit_id"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    except subprocess.CalledProcessError:
+        return "unknown"
+
 
 async def main(
     gym_project_directory: Path,
 ) -> None:
+    logger = Logger()
+    eval_result = EvalResult()
+
+    # Track timing and tokens
+    start_time = time.time()
+    total_input_tokens = 0
+    total_output_tokens = 0
+
     options = ClaudeAgentOptions(
         model="haiku",
         cwd=gym_project_directory,
@@ -135,6 +172,41 @@ async def main(
             for block in message.content:
                 if isinstance(block, TextBlock):
                     print(f"Claude: {block.text}")
+
+                if isinstance(block, ToolUseBlock):
+                    if (
+                        block.name == "Skill"
+                        and "writing-python-services" in block.input.get("skill")
+                    ):
+                        eval_result.used_service_skill.mark(True)
+
+        if isinstance(message, ResultMessage):
+            # Track token usage
+            if hasattr(message, "usage"):
+                breakpoint()
+
+    # Calculate wall clock time
+    wall_clock_time = time.time() - start_time
+
+    # Log the eval run
+    run_result = EvalRunResult(
+        wall_clock_time=wall_clock_time,
+        input_tokens=total_input_tokens,
+        output_tokens=total_output_tokens,
+        eval_results=eval_result.to_dict(),
+        git_revision=get_git_revision(),
+        working_directory=str(gym_project_directory),
+        timestamp=datetime.now(),
+    )
+
+    run_id = logger.log_eval_run(run_result)
+    print(f"\nLogged eval run with ID: {run_id}")
+    print(f"Wall clock time: {wall_clock_time:.2f}s")
+    print(f"Tokens - Input: {total_input_tokens}, Output: {total_output_tokens}")
+    print(f"Results: {eval_result.to_dict()}")
+
+    # Clean up
+    logger.close()
 
 
 if __name__ == "__main__":
