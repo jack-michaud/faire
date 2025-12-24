@@ -13,6 +13,11 @@ from claude_agent_sdk import (
     TextBlock,
 )
 
+BLOCKED_FILES = [
+    "writing_services.py",
+    "hidden_logger.py",
+]
+
 
 async def block_reading_eval_scripts_hook(
     input: HookInput, tool_use_id: str | None, context: HookContext
@@ -26,10 +31,10 @@ async def block_reading_eval_scripts_hook(
 
     file_path = input["tool_input"]["file_path"]
 
-    if "writing_services.py" in file_path:
+    if any(file in file_path for file in BLOCKED_FILES):
         return {
             "decision": "block",
-            "reason": "This is the eval we're running now: this would be like reading the answers to the test! No peeking!",
+            "reason": "This file is related to the eval we're running now: this would be like reading the answers to the test! No peeking!",
         }
 
     return {}
