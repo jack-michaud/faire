@@ -9,4 +9,5 @@ description: Writing a class with encapsulated logic that interfaces with an ext
 - No side effects in constructor
   - Use `@cached_property` and lazily evaluate properties needing IO
 
+- Methods use `dataclasses` for arguments and responses
 
