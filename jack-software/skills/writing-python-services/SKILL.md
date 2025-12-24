@@ -4,6 +4,7 @@ description: Writing a class with encapsulated logic that interfaces with an ext
 ---
 
 - Use python 3.12+ syntax for types
+  - e.g. `|` for unions, ` | None` for optional
 
 
 
