@@ -16,6 +16,7 @@ class EvalRunResult:
     output_tokens: int
     eval_results: dict
     git_revision: str
+    git_diff: str
     working_directory: str
     timestamp: datetime
 
@@ -30,6 +31,7 @@ class LogQueryResult:
     output_tokens: int
     eval_results: dict
     git_revision: str
+    git_diff: str
     working_directory: str
     timestamp: datetime
 
@@ -70,11 +72,28 @@ class Logger:
                 output_tokens INTEGER NOT NULL,
                 eval_results TEXT NOT NULL,
                 git_revision TEXT NOT NULL,
+                git_diff TEXT NOT NULL,
                 working_directory TEXT NOT NULL,
                 timestamp TEXT NOT NULL
             )
         """)
         conn.commit()
+        self._migrate_schema(conn)
+
+    def _migrate_schema(self, conn: sqlite3.Connection) -> None:
+        """Apply schema migrations for existing databases."""
+        cursor = conn.cursor()
+
+        # Check if git_diff column exists
+        cursor.execute("PRAGMA table_info(eval_runs)")
+        columns = {row[1] for row in cursor.fetchall()}
+
+        # Add git_diff column if it doesn't exist
+        if "git_diff" not in columns:
+            cursor.execute(
+                "ALTER TABLE eval_runs ADD COLUMN git_diff TEXT NOT NULL DEFAULT ''"
+            )
+            conn.commit()
 
     def log_eval_run(self, result: EvalRunResult) -> int:
         """Log an eval run result to the database.
@@ -96,8 +115,8 @@ class Logger:
         cursor.execute(
             """
             INSERT INTO eval_runs
-            (wall_clock_time, input_tokens, output_tokens, eval_results, git_revision, working_directory, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (wall_clock_time, input_tokens, output_tokens, eval_results, git_revision, git_diff, working_directory, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 result.wall_clock_time,
@@ -105,6 +124,7 @@ class Logger:
                 result.output_tokens,
                 eval_results_json,
                 result.git_revision,
+                result.git_diff,
                 result.working_directory,
                 timestamp_str,
             ),
@@ -227,6 +247,7 @@ class Logger:
             output_tokens=row["output_tokens"],
             eval_results=eval_results,
             git_revision=row["git_revision"],
+            git_diff=row["git_diff"],
             working_directory=row["working_directory"],
             timestamp=timestamp,
         )

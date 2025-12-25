@@ -20,7 +20,7 @@ from .ast_helpers import check_methods_use_dataclasses, check_uses_union_none_sy
 from .checks import EvalResult
 from .constants import REPO_ROOT
 from .hooks import block_reading_eval_scripts_hook, skills_forced_eval_hook
-from .vcs import get_git_revision
+from .vcs import get_git_revision, get_vcs_diff
 
 BLOCKED_FILES = [
     "writing_services.py",
@@ -135,6 +135,7 @@ async def main(
         output_tokens=total_output_tokens,
         eval_results=eval_result.to_dict(),
         git_revision=get_git_revision(),
+        git_diff=get_vcs_diff(),
         working_directory=str(gym_project_directory.absolute()),
         timestamp=datetime.now(),
     )
