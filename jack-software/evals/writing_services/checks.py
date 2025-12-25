@@ -20,9 +20,13 @@ class EvalResult:
     # Used |None instead of Optional
     used_none_instead_of_optional = Check(default=False, passed=True)
 
+    # Used dataclasses for method parameters and return types
+    used_dataclasses_for_methods = Check(default=False, passed=True)
+
     def to_dict(self) -> dict:
         """Convert eval results to a dictionary for logging."""
         return {
             "used_service_skill": self.used_service_skill.did_pass(),
             "used_none_instead_of_optional": self.used_none_instead_of_optional.did_pass(),
+            "used_dataclasses_for_methods": self.used_dataclasses_for_methods.did_pass(),
         }

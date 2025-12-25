@@ -16,7 +16,7 @@ from claude_agent_sdk import (
 )
 
 from ..hidden_logger import EvalRunResult, Logger
-from .ast_helpers import check_uses_union_none_syntax
+from .ast_helpers import check_methods_use_dataclasses, check_uses_union_none_syntax
 from .checks import EvalResult
 from .constants import REPO_ROOT
 from .hooks import block_reading_eval_scripts_hook, skills_forced_eval_hook
@@ -120,6 +120,10 @@ async def main(
     logger_file_path = gym_project_directory / "jack-software/evals/logger.py"
     if check_uses_union_none_syntax(logger_file_path):
         eval_result.used_none_instead_of_optional.mark(True)
+
+    # Check if the generated logger.py uses dataclasses for method parameters and returns
+    if check_methods_use_dataclasses(logger_file_path):
+        eval_result.used_dataclasses_for_methods.mark(True)
 
     # Calculate wall clock time
     wall_clock_time = time.time() - start_time
