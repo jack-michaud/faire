@@ -37,7 +37,7 @@ async def skills_forced_eval_hook(
         return {}
 
     cmd = str(
-        Path(__file__).parent.parent.parent
+        Path(__file__).parent.parent.parent.parent
         / "skills-forced-eval"
         / "hooks"
         / "skills-forced-eval.sh"
