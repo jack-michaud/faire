@@ -20,6 +20,7 @@ from .ast_helpers import check_methods_use_dataclasses, check_uses_union_none_sy
 from .checks import EvalResult
 from .constants import REPO_ROOT
 from .hooks import block_reading_eval_scripts_hook, skills_forced_eval_hook
+from .llm_helpers import check_no_constructor_side_effects
 from .vcs import get_git_revision, get_vcs_diff
 
 BLOCKED_FILES = [
@@ -124,6 +125,10 @@ async def main(
     # Check if the generated logger.py uses dataclasses for method parameters and returns
     if check_methods_use_dataclasses(logger_file_path):
         eval_result.used_dataclasses_for_methods.mark(True)
+
+    # Check if the generated logger.py has no side effects in constructor
+    if await check_no_constructor_side_effects(logger_file_path):
+        eval_result.no_constructor_side_effects.mark(True)
 
     # Calculate wall clock time
     wall_clock_time = time.time() - start_time
