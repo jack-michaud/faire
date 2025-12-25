@@ -6,7 +6,7 @@ def get_git_revision() -> str:
     # Try jj first
     try:
         result = subprocess.run(
-            ["jj", "log", "-r", "@", "--no-graph", "-T", "commit_id"],
+            ["jj", "log", "-r", "@-", "--no-graph", "-T", "commit_id"],
             capture_output=True,
             text=True,
             check=True,
