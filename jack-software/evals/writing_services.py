@@ -93,9 +93,8 @@ class EvalResult:
 
 
 def get_git_revision() -> str:
-    """Get current jj commit hash."""
-    # TODO: Should perhaps put this behind a protocol or strategy pattern
-    # so we can use git too.
+    """Get current VCS revision (jj or git)."""
+    # Try jj first
     try:
         result = subprocess.run(
             ["jj", "log", "-r", "@", "--no-graph", "-T", "commit_id"],
@@ -104,7 +103,19 @@ def get_git_revision() -> str:
             check=True,
         )
         return result.stdout.strip()
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+
+    # Fall back to git
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
         return "unknown"
 
 
@@ -182,8 +193,19 @@ async def main(
 
         if isinstance(message, ResultMessage):
             # Track token usage
-            if hasattr(message, "usage"):
-                breakpoint()
+            if message.usage:
+                # > The input_tokens field represents only the tokens that come after the last cache breakpoint in your request - not all the input tokens you sent.
+                # > To calculate total input tokens:
+                # > ```
+                # > total_input_tokens = cache_read_input_tokens + cache_creation_input_tokens + input_tokens
+                # > ```
+                # https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance
+                total_input_tokens = (
+                    message.usage.get("input_tokens")
+                    + message.usage.get("cache_read_input_tokens")
+                    + message.usage.get("cache_creation_input_tokens")
+                )
+                total_output_tokens = message.usage.get("output_tokens")
 
     # Calculate wall clock time
     wall_clock_time = time.time() - start_time
