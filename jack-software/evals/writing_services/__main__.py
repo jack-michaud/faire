@@ -117,6 +117,9 @@ async def main(
                 )
                 total_output_tokens = message.usage.get("output_tokens")
 
+    # Calculate wall clock time
+    wall_clock_time = time.time() - start_time
+
     # Check if the generated logger.py uses | None instead of Optional
     logger_file_path = gym_project_directory / "jack-software/evals/logger.py"
     if check_uses_union_none_syntax(logger_file_path):
@@ -129,9 +132,6 @@ async def main(
     # Check if the generated logger.py has no side effects in constructor
     if await check_no_constructor_side_effects(logger_file_path):
         eval_result.no_constructor_side_effects.mark(True)
-
-    # Calculate wall clock time
-    wall_clock_time = time.time() - start_time
 
     # Log the eval run
     run_result = EvalRunResult(
