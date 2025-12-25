@@ -1,7 +1,8 @@
 import asyncio
-from pathlib import Path
 
 from claude_agent_sdk import HookContext, HookInput, HookJSONOutput
+
+from .constants import REPO_ROOT
 
 BLOCKED_FILES = [
     "writing_services.py",
@@ -36,12 +37,7 @@ async def skills_forced_eval_hook(
     if input["hook_event_name"] != "UserPromptSubmit":
         return {}
 
-    cmd = str(
-        Path(__file__).parent.parent.parent.parent
-        / "skills-forced-eval"
-        / "hooks"
-        / "skills-forced-eval.sh"
-    )
+    cmd = str(REPO_ROOT / "skills-forced-eval" / "hooks" / "skills-forced-eval.sh")
     process = await asyncio.subprocess.create_subprocess_shell(cmd)
     assert process.stdout
     stdout_bytes = await process.stdout.read()

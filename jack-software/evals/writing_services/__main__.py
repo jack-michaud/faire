@@ -17,6 +17,7 @@ from claude_agent_sdk import (
 
 from ..hidden_logger import EvalRunResult, Logger
 from .checks import EvalResult
+from .constants import REPO_ROOT
 from .skills import block_reading_eval_scripts_hook, skills_forced_eval_hook
 from .vcs import get_git_revision
 
@@ -50,7 +51,7 @@ async def main(
             # }
             {
                 "type": "local",
-                "path": str(Path(__file__).parent.parent.parent / "jack-software"),
+                "path": str(REPO_ROOT / "jack-software"),
             }
         ],
         hooks={
