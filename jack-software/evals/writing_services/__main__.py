@@ -16,6 +16,7 @@ from claude_agent_sdk import (
 )
 
 from ..hidden_logger import EvalRunResult, Logger
+from .ast_helpers import check_uses_union_none_syntax
 from .checks import EvalResult
 from .constants import REPO_ROOT
 from .hooks import block_reading_eval_scripts_hook, skills_forced_eval_hook
@@ -114,6 +115,11 @@ async def main(
                     + message.usage.get("cache_creation_input_tokens")
                 )
                 total_output_tokens = message.usage.get("output_tokens")
+
+    # Check if the generated logger.py uses | None instead of Optional
+    logger_file_path = gym_project_directory / "jack-software/evals/logger.py"
+    if check_uses_union_none_syntax(logger_file_path):
+        eval_result.used_none_instead_of_optional.mark(True)
 
     # Calculate wall clock time
     wall_clock_time = time.time() - start_time

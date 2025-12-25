@@ -14,10 +14,15 @@ class Check:
 
 
 class EvalResult:
+    # Used the writing-services skill
     used_service_skill = Check(default=False, passed=True)
+
+    # Used |None instead of Optional
+    used_none_instead_of_optional = Check(default=False, passed=True)
 
     def to_dict(self) -> dict:
         """Convert eval results to a dictionary for logging."""
         return {
             "used_service_skill": self.used_service_skill.did_pass(),
+            "used_none_instead_of_optional": self.used_none_instead_of_optional.did_pass(),
         }
