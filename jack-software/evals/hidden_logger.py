@@ -235,3 +235,9 @@ class Logger:
         """Close the database connection if it was initialized."""
         if "connection" in self.__dict__:
             self._connection.close()
+
+
+if __name__ == "__main__":
+    logger = Logger("evals.db")
+
+    print(logger.get_all_eval_runs())
