@@ -1,5 +1,5 @@
+import argparse
 import asyncio
-import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
@@ -8,9 +8,6 @@ from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
     ClaudeSDKClient,
-    HookContext,
-    HookInput,
-    HookJSONOutput,
     HookMatcher,
     ResultMessage,
     SystemMessage,
@@ -18,105 +15,15 @@ from claude_agent_sdk import (
     ToolUseBlock,
 )
 
-from .hidden_logger import EvalRunResult, Logger
+from ..hidden_logger import EvalRunResult, Logger
+from .checks import EvalResult
+from .skills import block_reading_eval_scripts_hook, skills_forced_eval_hook
+from .vcs import get_git_revision
 
 BLOCKED_FILES = [
     "writing_services.py",
     "hidden_logger.py",
 ]
-
-
-async def block_reading_eval_scripts_hook(
-    input: HookInput, tool_use_id: str | None, context: HookContext
-) -> HookJSONOutput:
-    if input["hook_event_name"] != "PreToolUse":
-        # Not applicable
-        return {}
-    if input["tool_name"] != "Read":
-        # Not applicable
-        return {}
-
-    file_path = input["tool_input"]["file_path"]
-
-    if any(file in file_path for file in BLOCKED_FILES):
-        return {
-            "decision": "block",
-            "reason": "This file is related to the eval we're running now: this would be like reading the answers to the test! No peeking!",
-        }
-
-    return {}
-
-
-async def skills_forced_eval_hook(
-    input: HookInput, tool_use_id: str | None, context: HookContext
-) -> HookJSONOutput:
-    if input["hook_event_name"] != "UserPromptSubmit":
-        return {}
-
-    cmd = str(
-        Path(__file__).parent.parent.parent
-        / "skills-forced-eval"
-        / "hooks"
-        / "skills-forced-eval.sh"
-    )
-    process = await asyncio.subprocess.create_subprocess_shell(cmd)
-    assert process.stdout
-    stdout_bytes = await process.stdout.read()
-    stdout_str = stdout_bytes.decode("utf-8")
-
-    return {"reason": stdout_str}
-
-
-class Check:
-    _passed: bool
-    _value: bool
-
-    def __init__(self, default: bool, passed: bool) -> None:
-        self._passed = passed
-        self._value = default
-
-    def mark(self, value: bool) -> None:
-        self._value = value
-
-    def did_pass(self) -> bool:
-        return self._value == self._passed
-
-
-class EvalResult:
-    used_service_skill = Check(default=False, passed=True)
-
-    def to_dict(self) -> dict:
-        """Convert eval results to a dictionary for logging."""
-        return {
-            "used_service_skill": self.used_service_skill.did_pass(),
-        }
-
-
-def get_git_revision() -> str:
-    """Get current VCS revision (jj or git)."""
-    # Try jj first
-    try:
-        result = subprocess.run(
-            ["jj", "log", "-r", "@", "--no-graph", "-T", "commit_id"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return result.stdout.strip()
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pass
-
-    # Fall back to git
-    try:
-        result = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return result.stdout.strip()
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return "unknown"
 
 
 async def main(
@@ -162,8 +69,8 @@ async def main(
 
     await client.query("""Write a logging service in jack-software/evals/logger.py that stores eval run results.
     We should be able to store:
-    - the wall clock time the eval took, 
-    - number of input and output tokens the agent took, 
+    - the wall clock time the eval took,
+    - number of input and output tokens the agent took,
     - a dictionary of eval results,
     - the git commit revision or jj hash,
     - the working directory of the run,
@@ -232,8 +139,6 @@ async def main(
 
 
 if __name__ == "__main__":
-    import argparse
-
     parser = argparse.ArgumentParser()
     parser.add_argument("gym_project_directory", type=Path)
 
