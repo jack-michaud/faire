@@ -5,7 +5,7 @@ from claude_agent_sdk import HookContext, HookInput, HookJSONOutput
 from .constants import REPO_ROOT
 
 BLOCKED_FILES = [
-    "writing_services.py",
+    "writing_services",
     "hidden_logger.py",
 ]
 
