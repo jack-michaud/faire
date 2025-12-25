@@ -217,7 +217,7 @@ async def main(
         output_tokens=total_output_tokens,
         eval_results=eval_result.to_dict(),
         git_revision=get_git_revision(),
-        working_directory=str(gym_project_directory),
+        working_directory=str(gym_project_directory.absolute()),
         timestamp=datetime.now(),
     )
 
