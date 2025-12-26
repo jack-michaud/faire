@@ -42,7 +42,7 @@ async def main(
     model = None
 
     options = ClaudeAgentOptions(
-        model="haiku",
+        model="z-ai/glm-4.7",
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
         plugins=[
@@ -87,7 +87,7 @@ async def main(
         if isinstance(message, SystemMessage):
             if message.subtype == "init":
                 print(f"Plugins: {message.data.get('plugins')}")
-                model = message.data.get('model')
+                model = message.data.get("model")
                 continue
             print(message)
 
