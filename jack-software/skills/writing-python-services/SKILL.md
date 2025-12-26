@@ -11,3 +11,4 @@ description: Writing a class with encapsulated logic that interfaces with an ext
 
 - Methods use `dataclasses` for arguments and responses
 
+REMEMBER: After writing your code, double check to make sure each step has been followed.
