@@ -19,6 +19,7 @@ class EvalRunResult:
     git_diff: str
     working_directory: str
     timestamp: datetime
+    model: str
 
 
 @dataclass
@@ -34,6 +35,7 @@ class LogQueryResult:
     git_diff: str
     working_directory: str
     timestamp: datetime
+    model: str
 
 
 class Logger:
@@ -74,7 +76,8 @@ class Logger:
                 git_revision TEXT NOT NULL,
                 git_diff TEXT NOT NULL,
                 working_directory TEXT NOT NULL,
-                timestamp TEXT NOT NULL
+                timestamp TEXT NOT NULL,
+                model TEXT NOT NULL DEFAULT 'claude-haiku-4-5-20251001'
             )
         """)
         conn.commit()
@@ -92,6 +95,16 @@ class Logger:
         if "git_diff" not in columns:
             cursor.execute(
                 "ALTER TABLE eval_runs ADD COLUMN git_diff TEXT NOT NULL DEFAULT ''"
+            )
+            conn.commit()
+
+        # Add model column if it doesn't exist
+        cursor.execute("PRAGMA table_info(eval_runs)")
+        columns = {row[1] for row in cursor.fetchall()}
+
+        if "model" not in columns:
+            cursor.execute(
+                "ALTER TABLE eval_runs ADD COLUMN model TEXT NOT NULL DEFAULT 'claude-haiku-4-5-20251001'"
             )
             conn.commit()
 
@@ -115,8 +128,8 @@ class Logger:
         cursor.execute(
             """
             INSERT INTO eval_runs
-            (wall_clock_time, input_tokens, output_tokens, eval_results, git_revision, git_diff, working_directory, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (wall_clock_time, input_tokens, output_tokens, eval_results, git_revision, git_diff, working_directory, timestamp, model)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 result.wall_clock_time,
@@ -127,6 +140,7 @@ class Logger:
                 result.git_diff,
                 result.working_directory,
                 timestamp_str,
+                result.model,
             ),
         )
 
@@ -250,6 +264,7 @@ class Logger:
             git_diff=row["git_diff"],
             working_directory=row["working_directory"],
             timestamp=timestamp,
+            model=row["model"],
         )
 
     def close(self) -> None:

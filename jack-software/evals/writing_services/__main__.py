@@ -39,6 +39,7 @@ async def main(
     start_time = time.time()
     total_input_tokens = 0
     total_output_tokens = 0
+    model = None
 
     options = ClaudeAgentOptions(
         model="haiku",
@@ -86,6 +87,7 @@ async def main(
         if isinstance(message, SystemMessage):
             if message.subtype == "init":
                 print(f"Plugins: {message.data.get('plugins')}")
+                model = message.data.get('model')
                 continue
             print(message)
 
@@ -143,6 +145,7 @@ async def main(
         git_diff=get_vcs_diff(),
         working_directory=str(gym_project_directory.absolute()),
         timestamp=datetime.now(),
+        model=model or "unknown",
     )
 
     run_id = logger.log_eval_run(run_result)
