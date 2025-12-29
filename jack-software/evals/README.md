@@ -11,3 +11,11 @@ Writing a service is a [Claude Code Skill](https://platform.claude.com/docs/en/a
 ## Haiku 4.5 is not as good as Sonnet 4.5 at instruction following for simple skills
 
 ![](./assets/benchmark_comparison.png)
+
+## GLM-4.7 is better than Haiku but not as good as Sonnet
+
+May need prompt tuning.
+
+Cost to run GLM-4.7 on eval: `$2.75`
+
+![](./assets/benchmark_comparison_glm_4_7.png)
