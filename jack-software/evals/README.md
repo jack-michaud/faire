@@ -14,7 +14,9 @@ Writing a service is a [Claude Code Skill](https://platform.claude.com/docs/en/a
 
 ## GLM-4.7 is better than Haiku but not as good as Sonnet
 
-May need prompt tuning.
+Using [OpenRouter's Claude Code Integration](https://openrouter.ai/docs/guides/guides/claude-code-integration) I tested GLM-4.7 with the same Claude Code harness.
+
+NOTE: I haven't changed the prompt for this; given that this is a different model family, it may require different prompting.
 
 Cost to run GLM-4.7 on eval: `$2.75`
 
