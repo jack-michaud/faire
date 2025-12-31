@@ -42,7 +42,7 @@ async def main(
     model = None
 
     options = ClaudeAgentOptions(
-        model="minimax/minimax-m2.1",
+        model="x-ai/grok-code-fast-1",
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
         plugins=[
