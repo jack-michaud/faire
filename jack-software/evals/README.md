@@ -21,3 +21,19 @@ NOTE: I haven't changed the prompt for this; given that this is a different mode
 Cost to run GLM-4.7 on eval: `$2.75`
 
 ![](./assets/benchmark_comparison_glm_4_7.png)
+
+# Tips
+
+Running the eval
+
+```
+for i in {1..20}; do echo "=== Run $i/20 ===" && make run-services-eval && jj abandon -r @; done
+```
+
+If using an openrouter model, source `.env.openrouterclaude`.
+
+Generating a graph
+
+```
+uv run python jack-software/evals/create_benchmark_graph.py -o jack-software/evals/assets/benchmark_comparison_glm_4_7.png -r 24dd1ad:Haiku -r 11de541:GLM-4.7 -r 6cf39c8:Sonnet --db evals.db
+```
