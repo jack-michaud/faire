@@ -14,12 +14,23 @@ def analyze_eval_stats(logger: Logger) -> None:
         print("No eval runs found in the database.")
         return
 
+    # Filter out runs with empty git diffs
+    runs_with_diffs = [run for run in all_runs if run.git_diff.strip()]
+
+    if not runs_with_diffs:
+        print("No eval runs with git diffs found in the database.")
+        return
+
+    filtered_count = len(all_runs) - len(runs_with_diffs)
+    if filtered_count > 0:
+        print(f"Filtered out {filtered_count} eval run(s) with empty git diffs\n")
+
     # Group runs by git revision
     runs_by_revision = defaultdict(list)
-    for run in all_runs:
+    for run in runs_with_diffs:
         runs_by_revision[run.git_revision].append(run)
 
-    print(f"Found {len(all_runs)} total eval runs across {len(runs_by_revision)} revisions\n")
+    print(f"Found {len(runs_with_diffs)} eval runs (with git diffs) across {len(runs_by_revision)} revisions\n")
     print("=" * 80)
 
     # Analyze each revision
