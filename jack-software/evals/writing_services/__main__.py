@@ -42,7 +42,7 @@ async def main(
     model = None
 
     options = ClaudeAgentOptions(
-        model="x-ai/grok-code-fast-1",
+        model="xiaomi/mimo-v2-flash:free",
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
         plugins=[
