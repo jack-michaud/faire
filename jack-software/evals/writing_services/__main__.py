@@ -61,9 +61,7 @@ async def main(
             "PreToolUse": [
                 HookMatcher(matcher="Read", hooks=[block_reading_eval_scripts_hook])
             ],
-            "UserPromptSubmit": [
-                HookMatcher(matcher="*", hooks=[skills_forced_eval_hook])
-            ],
+            "UserPromptSubmit": [HookMatcher(hooks=[skills_forced_eval_hook])],
         },
         # max_turns=2,
     )

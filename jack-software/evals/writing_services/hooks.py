@@ -43,4 +43,6 @@ async def skills_forced_eval_hook(
     stdout_bytes = await process.stdout.read()
     stdout_str = stdout_bytes.decode("utf-8")
 
-    return {"reason": stdout_str}
+    return {
+        "systemMessage": stdout_str,
+    }
