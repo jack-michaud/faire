@@ -42,7 +42,7 @@ async def main(
     model = None
 
     options = ClaudeAgentOptions(
-        model="xiaomi/mimo-v2-flash:free",
+        model="sonnet",
         cwd=gym_project_directory,
         allowed_tools=["Skill", "Read", "Glob", "Write", "Edit"],
         plugins=[
