@@ -50,3 +50,5 @@ logs/pre_tool_use.json
 evals.db
 
 .env*
+
+.claude/settings.local.json
