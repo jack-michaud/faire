@@ -1,0 +1,17 @@
+{
+  "description": "Auto-allow cmux commands",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/allowlist-cmux.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
