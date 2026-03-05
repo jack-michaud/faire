@@ -1,0 +1,5 @@
+{
+  "name": "cmux",
+  "version": "0.1.0",
+  "description": "Orchestrate cmux workspaces, panes, and browser surfaces for autonomous development environments"
+}
