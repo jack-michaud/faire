@@ -392,8 +392,20 @@ python -m py_compile "$FILE_PATH"
 - ❌ **Don't**: Ignore hook failures silently
   - ✅ **Do**: Provide clear feedback to user
 
+## Constraints
+
+- Never inline complex regex directly in `hooks.json` — double-escaping across JSON and bash layers corrupts the pattern; always delegate to a script file
+- Never use `\s` in grep ERE patterns — use `[[:space:]]` instead; `\s` is not supported
+- Never rely on `\b` word boundaries in grep ERE — they are unreliable; use explicit character class delimiters instead
+- Never test blocking hooks without also testing false positives alongside bypass vectors — a hook that over-blocks is as broken as one that under-blocks
+- Always define long regex as a `PATTERN='...'` variable in the script rather than embedding it inline in the `grep` call — it avoids a third layer of quoting and is far easier to read and update
+
 ## Resources
 
 - **Official Docs**: https://docs.claude.com/en/docs/claude-code/hooks
 - **Settings Reference**: https://docs.claude.com/en/docs/claude-code/settings
 - **JSON Parsing**: `man jq` or https://jqlang.github.io/jq/
+
+Custom docs written on creating-hooks topics:
+
+- `resources/testing-pretooluse-blocking-hooks.md`
