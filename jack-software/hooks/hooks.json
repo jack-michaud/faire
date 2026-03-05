@@ -1,0 +1,17 @@
+{
+  "description": "Block find commands - use Glob or Read tools instead",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/block_find.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
