@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "code-search": {
+      "command": "uv",
+      "args": ["run", "--project", "${CLAUDE_PLUGIN_ROOT}", "python", "-m", "code_search.server"]
+    }
+  }
+}

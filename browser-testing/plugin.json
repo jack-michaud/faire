@@ -5,13 +5,5 @@
   "author": {
     "name": "Jack Michaud"
   },
-  "mcpServers": [
-    {
-      "name": "playwright",
-      "config": {
-        "command": "npx",
-        "args": ["@playwright/mcp@latest"]
-      }
-    }
-  ]
+  "mcpServers": "./.mcp.json"
 }

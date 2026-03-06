@@ -152,6 +152,32 @@
         "skills",
         "workflow"
       ]
+    },
+    {
+      "name": "code-search",
+      "source": "./code-search",
+      "description": "Semantic code search MCP server using embeddings for prior art discovery and pattern matching.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "code-search",
+        "embeddings",
+        "semantic-search",
+        "mcp",
+        "prior-art"
+      ],
+      "category": "development",
+      "tags": [
+        "search",
+        "embeddings",
+        "mcp",
+        "code-analysis"
+      ]
     }
   ]
 }

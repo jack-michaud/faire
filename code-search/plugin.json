@@ -1,0 +1,9 @@
+{
+  "name": "code-search",
+  "version": "0.1.0",
+  "description": "Semantic code search plugin using embeddings for prior art discovery and pattern matching.",
+  "author": {
+    "name": "Jack Michaud"
+  },
+  "mcpServers": "./.mcp.json"
+}
