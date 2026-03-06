@@ -178,6 +178,34 @@
         "mcp",
         "code-analysis"
       ]
+    },
+    {
+      "name": "ticket-agent",
+      "source": "./ticket-agent",
+      "description": "Autonomous ticket-to-production agent with customizable promptlet-driven phases. Reads tickets, plans, implements with TDD, creates PRs, monitors CI, and validates production.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "ticket",
+        "agent",
+        "automation",
+        "tdd",
+        "ci-cd",
+        "promptlets",
+        "workflow"
+      ],
+      "category": "development",
+      "tags": [
+        "automation",
+        "tickets",
+        "workflow",
+        "agent"
+      ]
     }
   ]
 }
