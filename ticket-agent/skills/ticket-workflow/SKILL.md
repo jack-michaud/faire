@@ -64,6 +64,8 @@ All sub-agents are `general-purpose` type. The promptlet defines:
 
 The `/ticket` command in the main session IS the orchestrator. Sub-agents cannot spawn sub-agents.
 
+**CRITICAL ORCHESTRATOR RULE**: The orchestrator MUST delegate work to sub-agents as defined by each promptlet. During phases that define agents (especially implementation), the orchestrator MUST NOT directly use Edit, Write, Grep, or Bash tools for code changes. It should only use tools for state management (reading/writing state files) and spawning agents. Each promptlet's agent templates contain literal prompt text — the orchestrator fills in values from state data and passes the constructed prompt to the Agent tool. If a promptlet defines per-component agents, the orchestrator iterates over the components array and spawns one agent per component.
+
 ## Session Boundaries
 
 The agent saves state and ends at these natural breakpoints:

@@ -77,6 +77,17 @@ Promptlets can reference state from previous phases using template variables:
 
 The orchestrator resolves these before passing instructions to agents.
 
+## Per-Item Agent Spawning
+
+Some phases need to spawn one agent per item in an array (e.g., one implementer per component). These promptlets use **agent templates** instead of direct agent definitions:
+
+- The promptlet provides a literal prompt template with `[placeholder]` markers
+- The orchestrator reads the array from state (e.g., `phases.planning.data.plan.components`)
+- For each item, the orchestrator fills in the placeholders and spawns an Agent tool call
+- All per-item agents in the same parallel group should be spawned in a single response (parallel Agent calls)
+
+This is different from `{{variable}}` interpolation — template variables reference state paths, while `[placeholder]` markers indicate values the orchestrator must fill from an iterated array item.
+
 ## Example: Minimal Promptlet
 
 ```markdown
