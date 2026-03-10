@@ -1,4 +1,14 @@
 
+# Version bumping: make bump-patch PLUGIN=jack-software
+bump-patch:
+	./scripts/bump-version.sh $(PLUGIN) patch
+
+bump-minor:
+	./scripts/bump-version.sh $(PLUGIN) minor
+
+bump-major:
+	./scripts/bump-version.sh $(PLUGIN) major
+
 run-services-eval:
 	uv run python -m jack-software.evals.writing_services .
 
