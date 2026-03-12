@@ -1,0 +1,5 @@
+{
+  "name": "sprites",
+  "version": "0.1.0",
+  "description": "Set up and manage remote dev environments using sprites with credential-free git sync"
+}

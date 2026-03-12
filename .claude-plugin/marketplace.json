@@ -206,6 +206,30 @@
         "workflow",
         "agent"
       ]
+    },
+    {
+      "name": "sprites",
+      "source": "./sprites",
+      "description": "Set up and manage remote dev environments using sprites with credential-free git sync",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "sprites",
+        "remote-dev",
+        "dev-environment",
+        "git-sync"
+      ],
+      "category": "development",
+      "tags": [
+        "remote",
+        "dev-environment",
+        "sprites"
+      ]
     }
   ]
 }
