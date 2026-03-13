@@ -59,6 +59,10 @@ When working with plugin components, reference the existing implementations:
 
 **MCP Servers:** See `browser-testing/plugin.json` for MCP server configuration in the `mcpServers` array.
 
+## Workflow Notes
+
+**Simple skill/procedure updates:** When making small updates to skills (e.g., adding a note, updating instructions), proactively bump the patch version (`make bump-patch PLUGIN=<name>`), commit, and push to main. Don't wait for the user to ask.
+
 ## Architecture
 
 This repository uses a **multi-plugin marketplace architecture**. Each plugin is independently versioned and installable. Plugins can contain any combination of:
