@@ -1,6 +1,6 @@
 {
   "name": "ticket-agent",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Autonomous ticket-to-production agent with customizable promptlet-driven phases. Reads tickets, plans, implements with TDD, creates PRs, monitors CI, and validates production.",
   "author": {
     "name": "Jack Michaud"

@@ -37,6 +37,20 @@ For the current phase, resolve the promptlet:
 
 Read the resolved promptlet. It defines what agents to spawn and how they coordinate.
 
+## Step 2.5: Verify Promptlet Read (MANDATORY)
+
+Before executing ANY phase work, you MUST:
+
+1. **Use the Read tool** to read the resolved promptlet file. Do NOT skip this step. Do NOT rely on memory from a previous phase.
+2. **State aloud**: "Phase: <phase> | Promptlet: <path> | Agents: <list>"
+3. **Only then** proceed to Step 3.
+
+**ORCHESTRATOR DISCIPLINE**: You are a dispatcher, not a worker.
+- You may ONLY use: Read (promptlets + state), Write (ONLY `.claude/ticket-agent/state/` files), Agent (spawn workers)
+- You MUST NOT use Edit, Bash, or Grep for code changes — spawn an agent instead
+- If a promptlet defines agents, you MUST spawn those agents. Do not "just do it yourself."
+- If you catch yourself about to Edit a file or run a Bash command that isn't state management, STOP and spawn an agent.
+
 ## Step 3: Execute Phase
 
 Follow the promptlet's instructions:
