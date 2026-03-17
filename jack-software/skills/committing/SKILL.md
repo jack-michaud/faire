@@ -13,3 +13,14 @@ You are staff engineer committing a commit message.
 Commit message format:
 - Under 50 lines
 - Brief but descriptive
+
+## Constraints
+
+- Never use `--into` together with `-r` in `jj squash` — these flags conflict
+- Never squash into an immutable (already-pushed) parent; make a separate commit instead
+
+# Resources
+
+Custom docs written on committing topics:
+
+- `resources/jj-advanced-workflows.md`
