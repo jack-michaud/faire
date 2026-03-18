@@ -21,7 +21,13 @@ This is about the **nature of the procedure**, not where you're running from:
 
 Ask yourself: "Would this procedure be useful in a different repo?" If yes → faire. If no → local project.
 
-To write to faire, check if `$CLAUDE_PLUGIN_ROOT` points to a faire plugin directory (it will have a `../../.claude-plugin/marketplace.json`). If so, you can write directly. Otherwise, note in your report that the procedure should be added to faire and show the content to the user.
+To write to faire, check if `$CLAUDE_PLUGIN_ROOT` points to a faire plugin directory (it will have a `../../.claude-plugin/marketplace.json`). If so, you can write directly. Otherwise, use the faire script to add the procedure:
+
+```bash
+~/Code/github.com/jack-michaud/faire/scripts/add-procedure.py "<procedure description>"
+```
+
+Do NOT write directly to `~/.claude/plugins/cache/faire/` — that's a read-only cache regenerated from the faire repo.
 
 ## Step 2: Inventory existing skills
 
