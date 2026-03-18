@@ -57,6 +57,7 @@ Apply ALL of these when drafting:
 - **Concrete examples over abstract rules**: Show what a good input/output looks like. Reference real types, configs, or patterns from the codebase.
 - **Completion criteria**: Define what "done" looks like — commit message format, screenshots to capture, proof to show.
 - **Appropriate scope**: A procedure skill should cover ONE workflow end-to-end. If it's trying to cover multiple unrelated things, split it.
+- **Only document what worked**: A procedure skill captures the successful process. Don't add constraints or error cases that the tools already enforce — if a tool errors on invalid input, that's the tool's job, not the skill's. Iron out the path that succeeded.
 
 ### Anti-patterns to Avoid
 
@@ -66,6 +67,7 @@ Apply ALL of these when drafting:
 - ❌ Overly generic — a good procedure skill is useful because it captures project-specific knowledge
 - ❌ Too many steps without grouping — use phases or sections for long procedures
 - ❌ Forgetting the trigger description — the `description` frontmatter field determines WHEN the skill activates, so it must be specific
+- ❌ Restating tool constraints — if `jj` already rejects an invalid flag combo, don't put that in the skill
 
 ## Step 3: Determine Skill Location
 
