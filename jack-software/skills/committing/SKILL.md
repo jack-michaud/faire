@@ -16,3 +16,5 @@ You are staff engineer committing a commit message.
 Commit message format:
 - Under 50 lines
 - Brief but descriptive
+
+- When `jj git push` fails with "stale info" or "references unexpectedly moved on the remote", read `resources/jj-stale-remote-push.md` for the fix procedure.
