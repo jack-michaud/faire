@@ -35,7 +35,7 @@ async def main() -> None:
         prompt=f"/jack-software:add-procedure {args.procedure}",
         options=ClaudeAgentOptions(
             cwd=str(REPO_ROOT),
-            allowed_tools=["Read", "Write", "Edit", "Glob", "Grep", "Bash(make:*)"],
+            allowed_tools=["Read", "Write", "Edit", "Glob", "Grep", "Bash(make:*)", "Bash(jj:*)"],
             permission_mode="acceptEdits",
             max_turns=20,
             model="claude-sonnet-4-6",
