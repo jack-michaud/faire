@@ -52,3 +52,4 @@ evals.db
 .env*
 
 .claude/settings.local.json
+.dmypy.json
