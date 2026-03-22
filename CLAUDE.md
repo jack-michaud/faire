@@ -73,3 +73,10 @@ This repository uses a **multi-plugin marketplace architecture**. Each plugin is
 - MCP Servers (external tool integrations)
 
 The marketplace system allows users to install only the plugins they need rather than a monolithic package.
+
+## Active Technologies
+- Markdown (slash command), Bash (validation script) + jj (VCS), make (version bumping), Claude Code plugin system (001-plugin-ship-command)
+- File system (markdown files, JSON configs) (001-plugin-ship-command)
+
+## Recent Changes
+- 001-plugin-ship-command: Added Markdown (slash command), Bash (validation script) + jj (VCS), make (version bumping), Claude Code plugin system
