@@ -44,4 +44,10 @@ specific command. Use `--json` flag on most commands for machine-readable output
 
 ## Workflows
 
-Successful workflows are documented as reference files. Check `references/` for proven patterns.
+Successful workflows are documented as reference files. Check `resources/` for proven patterns.
+
+# Resources
+
+Custom docs written on cmux topics:
+
+- `resources/workspace-survey.md` — How to survey the current workspace state at the start of a session
