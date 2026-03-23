@@ -255,6 +255,8 @@ Do NOT push for local project changes.
    rm -rf <TEMP_DIR>
    ```
 
+> **Verifying this command end-to-end**: When you need to confirm `/ship-skill` works correctly (workspace creation, writing, version bump, commit, push), read `resources/ship-skill-e2e-verification.md`.
+
 ## Step 9: Report
 
 Print the ship summary:
