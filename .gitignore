@@ -53,3 +53,13 @@ evals.db
 
 .claude/settings.local.json
 .dmypy.json
+
+# Node
+node_modules/
+
+# Plugin logs
+**/logs/post_tool_use.json
+**/logs/pre_tool_use.json
+
+# Ralph loop state
+.claude/ralph-loop.local.md

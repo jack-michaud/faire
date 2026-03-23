@@ -230,6 +230,30 @@
         "dev-environment",
         "sprites"
       ]
+    },
+    {
+      "name": "fifo-pipe-channel",
+      "source": "./fifo-pipe-channel",
+      "description": "Two-way Claude Code channel using named pipes (mkfifo). Write to the inbound pipe to send messages to Claude; read from the outbound pipe to receive replies.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "channel",
+        "fifo",
+        "pipe",
+        "ipc"
+      ],
+      "category": "communication",
+      "tags": [
+        "channel",
+        "fifo",
+        "pipe"
+      ]
     }
   ]
 }

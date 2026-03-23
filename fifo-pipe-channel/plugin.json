@@ -1,0 +1,9 @@
+{
+  "name": "fifo-pipe-channel",
+  "version": "0.1.0",
+  "description": "Two-way Claude Code channel using named pipes (mkfifo). Write to the inbound pipe to send messages to Claude; read from the outbound pipe to receive replies.",
+  "author": {
+    "name": "Jack Michaud"
+  },
+  "mcpServers": "./.mcp.json"
+}
