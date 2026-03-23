@@ -116,7 +116,7 @@
 
 ### Verification (execute before marking feature complete)
 
-- [ ] V013 **Run Agent SDK test script**: Execute `python scripts/test-ship-skill.py` and confirm it completes successfully with a result message indicating a successful push or commit.
+- [X] V013 **Run Agent SDK test script**: Execute `python scripts/test-ship-skill.py` and confirm it completes successfully with a result message indicating a successful push or commit.
 - [X] V014 **Verify README accuracy**: Read `jack-software/README.md` and confirm the `/ship-skill` documentation matches the actual command behavior (argument format, example usage). — Confirmed: examples match the quickstart.md patterns and contract.
 - [ ] V015 **Full regression: invoke `/ship-skill` manually**: From a non-faire repo, run `/jack-software:ship-skill add a procedure for final regression test`. Confirm the entire flow works: workspace setup, file creation, validation, version bump, commit, push, cleanup. This is the final gate before handing back to the human.
 
