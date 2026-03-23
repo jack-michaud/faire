@@ -30,7 +30,7 @@
 
 **Goal**: A developer invokes `/ship-skill` with a procedure description from any repo. The command creates an isolated jj workspace in the faire repo, writes the procedure to the right skill, validates, bumps the version, commits, pushes, and cleans up the workspace.
 
-**Independent Test**: Invoke `/jack-software:ship-skill add a procedure for ...` from a non-faire repo. Verify: procedure file exists with valid frontmatter, plugin version bumped, commit on main, push succeeded, workspace cleaned up.
+**Independent Test**: Invoke `/jack-software:ship-skill add a procedure for ...` from a non-faire repo. Verify: procedure file exists with valid frontmatter, plugin version bumped, commit on main, push succeeded, workspace cleaned up. See V001-V006 below for exact verification steps.
 
 ### Implementation for User Story 1
 
@@ -49,13 +49,22 @@
 
 **Checkpoint**: At this point, the command handles procedure shipping to faire (isolated workspace) and local project placement (dedicated commit, no push).
 
+### Verification (execute before proceeding)
+
+- [ ] V001 [US1] **Invoke the command end-to-end**: From a non-faire repo, run `/jack-software:ship-skill add a procedure for testing the ship-skill command`. Confirm the command completes without error.
+- [ ] V002 [US1] **Inspect the created file**: Read the procedure file that was created in the faire repo. Confirm it has valid YAML frontmatter with non-empty `name` and `description` fields.
+- [ ] V003 [US1] **Confirm version bump**: Read `jack-software/plugin.json` and `.claude-plugin/marketplace.json` in the faire repo. Confirm the version was incremented (patch for procedure addition).
+- [ ] V004 [US1] **Confirm commit and push**: Run `jj log -r main -R ~/Code/github.com/jack-michaud/faire` and confirm the latest commit message matches the expected `feat: ...` format and was pushed.
+- [ ] V005 [US1] **Confirm workspace cleanup**: Run `jj workspace list -R ~/Code/github.com/jack-michaud/faire` and confirm the temp workspace no longer exists. Confirm the temp directory was deleted.
+- [ ] V006 [US1] **Test local project path**: From a non-faire repo, run `/jack-software:ship-skill add a local procedure for testing local placement`. Confirm the file was created at `.claude/skills/<name>/SKILL.md` in the current project. Confirm `jj log` shows a dedicated commit for the new file. Confirm no push was attempted (output should say `Push: Local commit only`).
+
 ---
 
 ## Phase 4: User Story 2 - Add a new component and ship it (Priority: P2)
 
 **Goal**: Extend the command to handle explicit component creation (new skill or command) for a specified plugin, beyond just procedures.
 
-**Independent Test**: Invoke `/ship-skill create a command in the logs plugin that shows tool usage stats`. Verify: command file created at `logs/commands/<name>.md` with valid frontmatter, logs plugin version bumped, committed, pushed.
+**Independent Test**: Invoke `/ship-skill create a command in the logs plugin that shows tool usage stats`. Verify: command file created at `logs/commands/<name>.md` with valid frontmatter, logs plugin version bumped, committed, pushed. See V007-V009 below for exact verification steps.
 
 ### Implementation for User Story 2
 
@@ -65,13 +74,19 @@
 
 **Checkpoint**: The command now handles both procedures (US1) and explicit component creation (US2) for any plugin.
 
+### Verification (execute before proceeding)
+
+- [ ] V007 [US2] **Invoke with explicit plugin target**: Run `/jack-software:ship-skill create a command in the logs plugin that shows tool usage stats`. Confirm the command file was created at `logs/commands/<name>.md` with valid YAML frontmatter containing a non-empty `description`.
+- [ ] V008 [US2] **Confirm correct plugin version bump**: Read `logs/plugin.json` and confirm the minor version was incremented (new component = minor bump).
+- [ ] V009 [US2] **Regression: re-run US1 faire path**: Run `/jack-software:ship-skill add a procedure for verifying US2 regression` and confirm the full US1 flow still works (file created, version bumped, committed, pushed, workspace cleaned).
+
 ---
 
 ## Phase 5: User Story 3 - Verify changes before pushing (Priority: P2)
 
 **Goal**: Validation is already embedded in Step 5 of the command (US1). This phase ensures validation is comprehensive and handles all edge cases.
 
-**Independent Test**: Use the Agent SDK test script to invoke `/ship-skill` with a description that results in content with a known validation issue (e.g., prompt it to create a skill without a description field). Verify the command reports the specific validation failure in its result message and does not commit or push.
+**Independent Test**: Use the Agent SDK test script to invoke `/ship-skill` with a description that results in content with a known validation issue (e.g., prompt it to create a skill without a description field). Verify the command reports the specific validation failure in its result message and does not commit or push. See V010-V012 below for exact verification steps.
 
 ### Implementation for User Story 3
 
@@ -80,6 +95,12 @@
 - [ ] T008 [US3] Add error handling for edge cases in `jack-software/commands/ship-skill.md`: (1) faire repo path doesn't exist — report clear error, (2) `jj git fetch` fails — suggest checking network, (3) workspace creation fails — suggest manual `jj git fetch`, (4) push fails with stale refs — reference the stale-remote-push recovery procedure, (5) push fails for other reasons — report that commit is preserved in workspace (skip cleanup so user can recover).
 
 **Checkpoint**: All validation and error handling is comprehensive.
+
+### Verification (execute before proceeding)
+
+- [ ] V010 [US3] **Trigger a validation failure**: Invoke `/jack-software:ship-skill` with a description designed to produce invalid content (e.g., instruct it to create a skill without a description field). Confirm the command reports the specific validation failure (e.g., "SKILL.md missing `description` in frontmatter") and does NOT commit or push.
+- [ ] V011 [US3] **Test error path: missing faire repo**: Temporarily rename the faire repo path and invoke the command targeting faire. Confirm it reports a clear error about the missing repo path and does not crash.
+- [ ] V012 [US3] **Regression: re-run US1 happy path**: Run the standard `/jack-software:ship-skill add a procedure for ...` flow and confirm it still succeeds end-to-end after the validation enhancements.
 
 ---
 
@@ -92,6 +113,12 @@
 - [ ] T010 Bump jack-software plugin version: run `make bump-minor PLUGIN=jack-software` to increment the minor version for the new command addition (per constitution: minor bump for new components).
 
 - [ ] T011 Update `jack-software/README.md` to document the new `/ship-skill` command: add a brief description of its purpose, argument format, and example usage.
+
+### Verification (execute before marking feature complete)
+
+- [ ] V013 **Run Agent SDK test script**: Execute `python scripts/test-ship-skill.py` and confirm it completes successfully with a result message indicating a successful push or commit.
+- [ ] V014 **Verify README accuracy**: Read `jack-software/README.md` and confirm the `/ship-skill` documentation matches the actual command behavior (argument format, example usage).
+- [ ] V015 **Full regression: invoke `/ship-skill` manually**: From a non-faire repo, run `/jack-software:ship-skill add a procedure for final regression test`. Confirm the entire flow works: workspace setup, file creation, validation, version bump, commit, push, cleanup. This is the final gate before handing back to the human.
 
 ---
 
@@ -131,7 +158,7 @@
 
 1. Complete Phase 1: Setup (T001-T002) — read reference patterns
 2. Complete Phase 3: User Story 1 (T003-T004) — core command with faire workspace flow + local path
-3. **STOP and VALIDATE**: Test by invoking `/ship-skill` with a real procedure description
+3. **STOP and SELF-VERIFY**: Execute V001-V006. Every verification step must pass before proceeding. Do NOT hand back to the human until all pass.
 4. Ship if working
 
 ### Incremental Delivery

@@ -1,18 +1,17 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 1.0.0 → 1.1.0
-Modified principles:
-  - II. Convention-Driven Components → expanded to explicitly serve
-    coding agents as primary consumers of documentation and procedures
+Version change: 1.1.0 → 1.2.0
+Modified principles: none
 Added sections:
-  - Mission statement (below title)
-  - "Automate the Rote" subsection in Development Workflow
+  - "Self-Verification Before Handoff" subsection in Development Workflow
 Removed sections: none
 Templates requiring updates:
+  - .specify/templates/tasks-template.md ✅ updated — added Verification
+    sections to each phase checkpoint, updated Notes and Implementation
+    Strategy to reference deterministic verification
   - .specify/templates/plan-template.md ✅ no changes needed
   - .specify/templates/spec-template.md ✅ no changes needed
-  - .specify/templates/tasks-template.md ✅ no changes needed
 Follow-up TODOs: none
 -->
 
@@ -102,6 +101,32 @@ compounds across plugins and makes maintenance unsustainable.
 - Commit messages follow conventional format:
   `<type>: <description>` (feat, fix, refactor, docs, test, chore).
 
+### Self-Verification Before Handoff
+
+Every task or checkpoint MUST include deterministic verification
+steps that the implementer executes before looping in a human
+reviewer. "Deterministic" means the verification produces a
+concrete, observable result — not "check that it works" but a
+specific action with an expected outcome.
+
+Valid verification methods (use the most realistic available):
+- **Run the thing**: invoke the skill/command/hook in a real or
+  near-real environment and confirm expected output.
+- **Run tests**: execute unit tests, integration tests, or E2E
+  tests and confirm they pass.
+- **Inspect artifacts**: read generated files, confirm file
+  exists at expected path, validate frontmatter/schema.
+- **UI verification**: click the button, load the page, confirm
+  the visual result.
+- **Agent SDK testing**: use a test script to invoke the feature
+  programmatically and assert on the result.
+
+Verification steps MUST be explicit in task lists (not implied).
+If a checkpoint says "validate" it MUST say exactly how — which
+command to run, what file to read, what output to expect. The
+implementer MUST NOT hand back to the human until all verification
+steps have been executed and passed.
+
 ### Automate the Rote
 
 Repetitive, error-prone operations MUST be scripted rather than
@@ -141,4 +166,4 @@ for the Faire marketplace. All contributions MUST comply.
 speckit commands SHOULD be checked against this constitution before
 finalization.
 
-**Version**: 1.1.0 | **Ratified**: 2026-03-22 | **Last Amended**: 2026-03-22
+**Version**: 1.2.0 | **Ratified**: 2026-03-22 | **Last Amended**: 2026-03-22

@@ -71,6 +71,11 @@ Examples of foundational tasks (adjust based on your project):
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
+### Verification (execute before proceeding)
+
+- [ ] [Concrete verification step — e.g., run `make lint` and confirm zero errors]
+- [ ] [Concrete verification step — e.g., run the dev server and confirm it starts without crash]
+
 ---
 
 ## Phase 3: User Story 1 - [Title] (Priority: P1) 🎯 MVP
@@ -97,6 +102,12 @@ Examples of foundational tasks (adjust based on your project):
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
+### Verification (execute before proceeding)
+
+- [ ] [Deterministic verification — e.g., invoke the feature end-to-end and confirm expected output]
+- [ ] [Artifact inspection — e.g., read generated file at `path/to/file` and confirm it contains X]
+- [ ] [Test execution — e.g., run `pytest tests/integration/test_us1.py` and confirm all pass]
+
 ---
 
 ## Phase 4: User Story 2 - [Title] (Priority: P2)
@@ -119,6 +130,11 @@ Examples of foundational tasks (adjust based on your project):
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
+### Verification (execute before proceeding)
+
+- [ ] [Deterministic verification for US2 — e.g., invoke the US2 feature and confirm expected output]
+- [ ] [Regression check — e.g., re-run US1 verification steps to confirm US2 didn't break US1]
+
 ---
 
 ## Phase 5: User Story 3 - [Title] (Priority: P3)
@@ -139,6 +155,11 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
 
 **Checkpoint**: All user stories should now be independently functional
+
+### Verification (execute before proceeding)
+
+- [ ] [Deterministic verification for US3]
+- [ ] [Regression check — re-run US1 and US2 verification steps]
 
 ---
 
@@ -216,7 +237,7 @@ Task: "Create [Entity2] model in src/models/[entity2].py"
 1. Complete Phase 1: Setup
 2. Complete Phase 2: Foundational (CRITICAL - blocks all stories)
 3. Complete Phase 3: User Story 1
-4. **STOP and VALIDATE**: Test User Story 1 independently
+4. **STOP and SELF-VERIFY**: Execute all US1 verification steps. Do NOT hand back to the human until every verification step has been run and passed.
 5. Deploy/demo if ready
 
 ### Incremental Delivery
@@ -249,3 +270,4 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+- **Verification steps MUST be deterministic**: specific commands to run, files to inspect, outputs to expect. Never "check that it works" — always "run X, confirm Y". Self-verification is mandatory before handing back to the human.
