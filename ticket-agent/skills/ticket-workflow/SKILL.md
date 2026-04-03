@@ -1,13 +1,13 @@
 ---
-name: Ticket Workflow
-description: Autonomous ticket-to-production lifecycle with promptlet-driven phases. Use when executing /ticket commands or working on ticket-driven development.
+name: ticket-workflow
+description: "Autonomous ticket-to-production lifecycle with promptlet-driven phases. Use when executing /ticket commands, working on ticket-driven development, or orchestrating multi-phase workflows from intake through planning, implementation, CI review, and production validation."
 ---
 
 # Ticket Workflow
 
 ## Overview
 
-The ticket workflow drives an autonomous agent through 10 phases from ticket intake to production validation. Each phase is defined by a **promptlet** -- a markdown template that specifies what agents to spawn, how they coordinate, and what they produce.
+The ticket workflow drives an autonomous agent through 10 phases from ticket intake to production validation. Each phase is defined by a **promptlet** — a markdown template that specifies what agents to spawn, how they coordinate, and what they produce.
 
 ## Phases
 
@@ -27,7 +27,7 @@ The ticket workflow drives an autonomous agent through 10 phases from ticket int
 ## Phase Transitions
 
 - Phases execute sequentially from 1 to 10
-- The orchestrator (main session) reads the promptlet for the current phase, spawns agents as specified, collects results, updates state, and transitions to the next phase
+- The orchestrator reads the promptlet for the current phase, spawns agents as specified, collects results, updates state, and transitions to the next phase
 - Session boundaries cause the agent to save state and stop. Human resumes with `/ticket <id>`
 - The agent NEVER auto-merges. Phase 7 (human-merge-gate) always requires human action
 
@@ -79,14 +79,14 @@ The agent saves state and ends at these natural breakpoints:
 After the PR is created, the ci-review-loop phase forms a continuous monitoring loop:
 1. Push the PR
 2. Poll CI status and PR comments in parallel
-3. If CI fails -> analyze, fix, push (restarts CI check)
-4. If review comments arrive -> address them, push
+3. If CI fails → analyze, fix, push (restarts CI check)
+4. If review comments arrive → address them, push
 5. Loop exits when: CI green AND PR approved (or no outstanding comments)
 6. Max 3 CI fix attempts before session boundary
 
 ## Resources
 
 Reference documents for this workflow:
-- `resources/phase-reference.md` - Detailed phase definitions and transition rules
-- `resources/promptlet-format.md` - How to write and customize promptlets
-- Default promptlets in `resources/promptlets/` - Generic implementations for each phase
+- `resources/phase-reference.md` — Detailed phase definitions and transition rules
+- `resources/promptlet-format.md` — How to write and customize promptlets
+- Default promptlets in `resources/promptlets/` — Generic implementations for each phase
