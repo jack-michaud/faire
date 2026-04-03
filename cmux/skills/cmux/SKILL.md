@@ -1,11 +1,6 @@
 ---
-name: cmux Workspace Orchestration
-description: >-
-  This skill should be used when the user asks to "set up a dev environment",
-  "create a workspace", "open a browser pane", "split terminal", "spin up frontend and backend",
-  "use cmux", "manage cmux panes", "run commands in cmux", or mentions cmux workspaces, panes,
-  surfaces, or browser automation. Provides workflow guidance for orchestrating multi-pane
-  development environments with terminal and browser surfaces.
+name: cmux
+description: "cmux terminal multiplexer workspace orchestration for macOS. Use when setting up dev environments, creating workspaces, splitting terminals, managing panes and browser surfaces, or running commands across cmux sessions — covers CLI commands, ref format, and multi-pane workflows."
 ---
 
 # cmux Workspace Orchestration
