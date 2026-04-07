@@ -1,6 +1,6 @@
 ---
 name: Committing
-description: Any time committing changes is mentioned, use this commit flow.
+description: Any time committing, pushing, or creating new revisions is mentioned, use this commit flow.
 ---
 
 You are staff engineer committing a commit message.
@@ -16,5 +16,7 @@ You are staff engineer committing a commit message.
 Commit message format:
 - Under 50 lines
 - Brief but descriptive
+
+- After `jj git push`, always run `jj new` to start a fresh empty revision. Never leave the working copy on a revision that was just pushed.
 
 - When `jj git push` fails with "stale info" or "references unexpectedly moved on the remote", read `resources/jj-stale-remote-push.md` for the fix procedure.
