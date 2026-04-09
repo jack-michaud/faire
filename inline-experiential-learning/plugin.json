@@ -1,10 +1,9 @@
 {
   "name": "inline-experiential-learning",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Inline learning and retrieval for agent memory. Primes sessions with memory index, detects learnable moments (corrections, new processes) at session end, and writes confirmed learnings to the filesystem.",
   "author": {
     "name": "Jack Michaud"
   },
-  "license": "MIT",
-  "hooks": "hooks/"
+  "license": "MIT"
 }
