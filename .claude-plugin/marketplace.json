@@ -254,6 +254,33 @@
         "fifo",
         "pipe"
       ]
+    },
+    {
+      "name": "inline-experiential-learning",
+      "source": "./inline-experiential-learning",
+      "description": "Inline learning and retrieval for agent memory. Primes sessions with memory index, detects learnable moments (corrections, new processes) at session end, and writes confirmed learnings to the filesystem.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "memory",
+        "learning",
+        "hooks",
+        "retrieval",
+        "corrections",
+        "knowledge-management"
+      ],
+      "category": "development",
+      "tags": [
+        "memory",
+        "learning",
+        "hooks",
+        "knowledge"
+      ]
     }
   ]
 }
