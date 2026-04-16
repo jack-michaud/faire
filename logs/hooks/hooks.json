@@ -1,5 +1,5 @@
 {
-  "description": "Tool usage logging hooks",
+  "description": "Tool usage and hook logging",
   "hooks": {
     "PreToolUse": [
       {
@@ -19,6 +19,26 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/scripts/post_tool_use.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/log_hook.py stop"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/log_hook.py subagent_stop"
           }
         ]
       }

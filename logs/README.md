@@ -9,6 +9,7 @@ Heavily inspired by [disler's Claude Hooks repo](https://github.com/disler/claud
 - **Automatic Logging**: Logs all tool calls before and after execution
 - **Pre-Tool Logging**: Captures tool names and inputs before execution
 - **Post-Tool Logging**: Captures tool names, inputs, and outputs after execution
+- **Hook Logging**: Captures Stop and SubagentStop hook input/output (agent hooks, etc.)
 - **Slash Commands**: View and manage logs directly from Claude Code
 
 ## Installation
@@ -23,9 +24,11 @@ claude plugin install logs@faire
 
 ### Automatic Logging
 
-Once installed, the plugin automatically logs all tool usage to:
+Once installed, the plugin automatically logs to:
 - `logs/pre_tool_use.json` - Tool calls before execution
 - `logs/post_tool_use.json` - Tool results after execution
+- `logs/stop.json` - Stop hook events (including agent hook triggers)
+- `logs/subagent_stop.json` - Subagent completions (agent hook results)
 
 ### Slash Commands
 

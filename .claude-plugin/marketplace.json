@@ -107,7 +107,7 @@
       "name": "logs",
       "source": "./logs",
       "description": "Logging hooks and commands for tracking Claude Code tool usage",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Jack Michaud"
       },
