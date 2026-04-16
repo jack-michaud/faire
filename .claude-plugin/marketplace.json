@@ -258,8 +258,8 @@
     {
       "name": "inline-experiential-learning",
       "source": "./inline-experiential-learning",
-      "description": "Inline learning and retrieval for agent memory. Primes sessions with memory index, detects learnable moments (corrections, new processes) at session end, and writes confirmed learnings to the filesystem.",
-      "version": "0.1.2",
+      "description": "Detects non-trivial workflows at session end and suggests saving them as project skills in .claude/skills/.",
+      "version": "0.2.0",
       "author": {
         "name": "Jack Michaud"
       },

@@ -1,22 +1,10 @@
 # Inline Experiential Learning
 
-A Claude Code plugin that adds retrieval priming and inline learning to the agent memory system.
+A Claude Code plugin that detects non-trivial workflows and suggests saving them as project skills.
 
 ## What It Does
 
-**Retrieval priming (SessionStart hook):** At the start of every session, injects the compressed memory index from `.claude/memory/INDEX.md` along with a retrieval strategy. The agent decides depth: index only (most sessions), summary scan via `head -1`, or full file read.
-
-**Learning detection (Stop hook):** When the agent finishes, a prompt-based Stop hook evaluates whether the session produced knowledge worth storing — corrections, new processes, or untriggered-but-relevant memory files. Most sessions fast-exit with `{ok: true}`. When learnings are detected, the main agent confirms each with the user before writing.
-
-## Memory File Format
-
-```
-One sentence summary of the learning (~8-15 words).
-Full description with context, nuance, and reasoning.
-<evidence: what session/correction produced this learning>
-```
-
-Files live in `.claude/memory/<category>/<topic>.md`. Categories emerge organically from learnings. The index is rebuilt after each write.
+**Skill suggestion (Stop hook):** When the agent finishes, a prompt-based Stop hook evaluates whether the session involved trial and error, course corrections, or non-obvious multi-step processes. If so, it checks `.claude/skills/` for existing coverage and suggests creating or updating a skill. Most sessions fast-exit with `{ok: true}`.
 
 ## Installation
 
@@ -24,25 +12,24 @@ Files live in `.claude/memory/<category>/<topic>.md`. Categories emerge organica
 claude plugin install inline-experiential-learning@faire
 ```
 
-## Components
+## How It Works
 
-| Component | Type | Purpose |
-|-----------|------|---------|
-| `hooks/scripts/session-start.sh` | SessionStart command hook | Reads INDEX.md, returns as additionalContext |
-| `hooks/hooks.json` | Hook config | Wires up SessionStart + Stop hooks |
-| `prompts/handle-learning.md` | Promptlet | Instructions for main agent after learning recommendation |
-| `scripts/rebuild-memory-index.sh` | Script | Deterministic index builder from memory filesystem |
+1. Stop hook agent reviews the conversation for experiential learning signals
+2. If signals found, globs `.claude/skills/*/SKILL.md` to check for existing skills
+3. If no existing skill covers the process, suggests a new skill with name, description, and key steps
+4. Main agent creates the skill at `.claude/skills/<name>/SKILL.md`
 
-## How Learning Works
+## Skill Format
 
-1. Stop hook agent reads the last assistant message for correction/discovery signals
-2. If signals found, checks for duplicates against existing memory files
-3. Greps transcript for `.claude/memory/` Read calls to find untriggered memories
-4. Recommends learnings with type, suggested file path, and content
-5. Main agent reads `handle-learning.md` promptlet and confirms each with user
-6. On confirmation, writes the memory file and rebuilds the index
+Skills are markdown files with YAML frontmatter:
 
-## Requirements
+```markdown
+---
+name: Skill Name
+description: When to use this skill
+---
 
-- `python3` (for JSON escaping in session-start hook)
-- `.claude/memory/` directory in project (created on first learning)
+Skill content with steps, context, and instructions.
+```
+
+Files live in `.claude/skills/<name>/SKILL.md` in the project directory.
