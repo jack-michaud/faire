@@ -1,0 +1,443 @@
+[
+  {
+    "file": "baseline.md",
+    "summary": {
+      "errors": 6,
+      "warnings": 48
+    },
+    "findings": [
+      {
+        "rule": "sentence-length",
+        "severity": "error",
+        "line": 5,
+        "col": 1,
+        "message": "Sentence has 33 words (maximum 25 for descriptive text). Split it into shorter sentences.",
+        "excerpt": "GitForge is a self-hosted, web-based Git hosting platform providing repository m..."
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 5,
+        "col": 1,
+        "message": "Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "It targets engineering organizations with compliance, data-residency, or air-gap..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 5,
+        "col": 59,
+        "message": "Unapproved word \"providing\": use \"give\" or \"supply\".",
+        "excerpt": "providing"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 7,
+        "col": 1,
+        "message": "Sentence has 22 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "This spec covers the v1 scope: repository hosting over HTTP(S) and SSH, authenti..."
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 11,
+        "col": 1,
+        "message": "Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Self-hostable in under 30 minutes  via Docker Compose, with a single Postgres de..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 11,
+        "col": 39,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 11,
+        "col": 118,
+        "message": "Unapproved word \"required\": use \"need\" or \"must have\".",
+        "excerpt": "required"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 11,
+        "col": 136,
+        "message": "Unapproved word \"functionality\": use \"function(s)\".",
+        "excerpt": "functionality"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 12,
+        "col": 95,
+        "message": "Unapproved word \"required\": use \"need\" or \"must have\".",
+        "excerpt": "required"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 14,
+        "col": 1,
+        "message": "Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Horizontally scalable  read path (clones/fetches) separate from the write path (..."
+      },
+      {
+        "rule": "passive-voice",
+        "severity": "error",
+        "line": 15,
+        "col": 1,
+        "message": "Passive voice (\"is logged\"): use the active voice. Name who or what does the action.",
+        "excerpt": "is logged"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 23,
+        "col": 1,
+        "message": "Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Web/API server  (Go) \u2014 stateless HTTP service serving the REST API and rendering..."
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "error",
+        "line": 25,
+        "col": 1,
+        "message": "Sentence has 26 words (maximum 25 for descriptive text). Split it into shorter sentences.",
+        "excerpt": "Repository storage  \u2014 bare repos on a shared filesystem (NFS/EFS for small deplo..."
+      },
+      {
+        "rule": "passive-voice",
+        "severity": "error",
+        "line": 26,
+        "col": 1,
+        "message": "Passive voice (\"is used\"): use the active voice. Name who or what does the action.",
+        "excerpt": "is used"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 43,
+        "col": 1,
+        "message": "Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Background workers (same binary,                ) consume a Redis-backed queue f..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 43,
+        "col": 157,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 43,
+        "col": 180,
+        "message": "Unapproved word \"initially\": use \"at the start\".",
+        "excerpt": "initially"
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 43,
+        "col": 189,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Background workers (same binary,                ) consume a"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 48,
+        "col": 3,
+        "message": "Unapproved word \"Create\": use \"make\".",
+        "excerpt": "Create"
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 48,
+        "col": 34,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Create/fork/mirror repositories; support for bare repo stora"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 50,
+        "col": 28,
+        "message": "Unapproved word \"require\": use \"need\" or \"must have\".",
+        "excerpt": "require"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 50,
+        "col": 40,
+        "message": "Unapproved word \"require\": use \"need\" or \"must have\".",
+        "excerpt": "require"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 50,
+        "col": 63,
+        "message": "Unapproved word \"require\": use \"need\" or \"must have\".",
+        "excerpt": "require"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 51,
+        "col": 1,
+        "message": "Sentence has 22 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Web-based file browser, blame, and commit history rendered from               / ..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 51,
+        "col": 92,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 52,
+        "col": 22,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 55,
+        "col": 1,
+        "message": "Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Auth methods: username/password (bcrypt), SSH keys, personal access tokens (PATs..."
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 58,
+        "col": 1,
+        "message": "Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "All permission checks centralized in a single         package invoked by both AP..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 62,
+        "col": 22,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 63,
+        "col": 84,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 64,
+        "col": 57,
+        "message": "Unapproved word \"executed\": use \"do\" or \"start\".",
+        "excerpt": "executed"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 65,
+        "col": 3,
+        "message": "Unapproved word \"Required\": use \"need\" or \"must have\".",
+        "excerpt": "Required"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 65,
+        "col": 26,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "ing-form",
+        "severity": "warning",
+        "line": 69,
+        "col": 1,
+        "message": "Sentence starts with the -ing form \"Cross-linking\". Rewrite with a finite verb (for example: \"When you X...\" or an imperative).",
+        "excerpt": "Cross-linking:              in PR descriptions auto-closes i"
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 70,
+        "col": 26,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Comments with reactions; activity timeline (label changes, a"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 74,
+        "col": 24,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 79,
+        "col": 1,
+        "message": "Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Webhooks: per-repo and per-org, HMAC-signed payloads, at-least-once delivery wit..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 79,
+        "col": 116,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 80,
+        "col": 101,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 98,
+        "col": 1,
+        "message": "Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Git object data lives entirely outside Postgres, on the repo storage layer; Post..."
+      },
+      {
+        "rule": "passive-voice",
+        "severity": "error",
+        "line": 98,
+        "col": 1,
+        "message": "Passive voice (\"are backed\"): use the active voice. Name who or what does the action.",
+        "excerpt": "are backed"
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 98,
+        "col": 75,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Git object data lives entirely outside Postgres, on the repo"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 102,
+        "col": 1,
+        "message": "Sentence has 23 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Availability : 99.9% target for single-region deployments; API and web servers a..."
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 102,
+        "col": 61,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Availability : 99.9% target for single-region deployments; A"
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 103,
+        "col": 64,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Performance : p95 API latency < 200ms for metadata endpoints"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "error",
+        "line": 104,
+        "col": 1,
+        "message": "Sentence has 37 words (maximum 25 for descriptive text). Split it into shorter sentences.",
+        "excerpt": "Security : all traffic TLS-only in production configs; secrets (webhook signing ..."
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 104,
+        "col": 57,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Security : all traffic TLS-only in production configs; secre"
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 104,
+        "col": 119,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 105,
+        "col": 1,
+        "message": "Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Backup/DR : nightly Postgres logical backups + continuous WAL archiving; repo st..."
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 105,
+        "col": 75,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Backup/DR : nightly Postgres logical backups + continuous WA"
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 106,
+        "col": 1,
+        "message": "Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Observability : structured logs (JSON), Prometheus metrics for request latency/q..."
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 107,
+        "col": 1,
+        "message": "Sentence has 23 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "Upgrade path : schema migrations via versioned SQL files applied automatically o..."
+      },
+      {
+        "rule": "unapproved-word",
+        "severity": "warning",
+        "line": 107,
+        "col": 37,
+        "message": "Unapproved word \"via\": use \"through\" or \"by\".",
+        "excerpt": "via"
+      },
+      {
+        "rule": "semicolon",
+        "severity": "warning",
+        "line": 107,
+        "col": 130,
+        "message": "Do not use semicolons. Write two short sentences.",
+        "excerpt": "Upgrade path : schema migrations via versioned SQL files app"
+      }
+    ]
+  }
+]
