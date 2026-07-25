@@ -1,0 +1,434 @@
+<title>STE Linter Evaluation — GitForge Spec</title>
+<style>
+  :root {
+    --paper: #F7F6F2; --ink: #1C2430; --muted: #5A6472; --line: #D9D6CC;
+    --accent: #2456A6; --panel: #FFFFFF;
+    --del-bg: #F6E2DF; --del-ink: #8C2B24; --ins-bg: #E1EFDF; --ins-ink: #275C34;
+    --err: #B3382F; --warn: #9A6B1F; --err-bg: #F6E2DF; --warn-bg: #F3EAD4;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --paper: #141A22; --ink: #E4E7EB; --muted: #98A2AF; --line: #2C3542;
+    --accent: #7FA8E8; --panel: #1B222D;
+    --del-bg: #45211F; --del-ink: #F0A9A2; --ins-bg: #1F3A26; --ins-ink: #A4D8AC;
+    --err: #F0A9A2; --warn: #E4C078; --err-bg: #45211F; --warn-bg: #3A3120;
+  } }
+  :root[data-theme="light"] {
+    --paper: #F7F6F2; --ink: #1C2430; --muted: #5A6472; --line: #D9D6CC;
+    --accent: #2456A6; --panel: #FFFFFF;
+    --del-bg: #F6E2DF; --del-ink: #8C2B24; --ins-bg: #E1EFDF; --ins-ink: #275C34;
+    --err: #B3382F; --warn: #9A6B1F; --err-bg: #F6E2DF; --warn-bg: #F3EAD4;
+  }
+  :root[data-theme="dark"] {
+    --paper: #141A22; --ink: #E4E7EB; --muted: #98A2AF; --line: #2C3542;
+    --accent: #7FA8E8; --panel: #1B222D;
+    --del-bg: #45211F; --del-ink: #F0A9A2; --ins-bg: #1F3A26; --ins-ink: #A4D8AC;
+    --err: #F0A9A2; --warn: #E4C078; --err-bg: #45211F; --warn-bg: #3A3120;
+  }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: Charter, Georgia, "Times New Roman", serif;
+    line-height: 1.55; margin: 0; padding: 2.5rem 1.25rem 4rem;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem;
+    color: var(--accent); font-weight: 600;
+  }
+  h1 {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700;
+    margin: 0.2rem 0 0.4rem; text-wrap: balance;
+  }
+  .lede { color: var(--muted); max-width: 62ch; margin: 0 0 2rem; }
+  h2 {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.08em;
+    border-top: 2px solid var(--ink); padding-top: 0.6rem; margin: 2.8rem 0 0.9rem;
+  }
+  .stats { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+    padding: 0.8rem 1.1rem; min-width: 9.5rem; flex: 1;
+  }
+  .stat .label {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .stat .value {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 1.9rem; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  .stat .sub { font-size: 0.85rem; color: var(--muted); }
+  .stat.good .value { color: var(--ins-ink); }
+  table { border-collapse: collapse; width: 100%; max-width: 34rem; }
+  th, td {
+    text-align: left; padding: 0.35rem 0.9rem 0.35rem 0;
+    border-bottom: 1px solid var(--line); font-size: 0.95rem;
+  }
+  th {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .diff { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 900px) { .diff { grid-template-columns: 1fr; } }
+  .pane {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+    overflow: hidden;
+  }
+  .pane h3 {
+    margin: 0; padding: 0.55rem 0.9rem;
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--line); color: var(--muted);
+  }
+  .pane pre {
+    margin: 0; padding: 0.9rem; white-space: pre-wrap; overflow-wrap: break-word;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.78rem; line-height: 1.6; max-height: 70vh; overflow-y: auto;
+  }
+  del { background: var(--del-bg); color: var(--del-ink); text-decoration: line-through; text-decoration-thickness: 1px; border-radius: 2px; }
+  ins { background: var(--ins-bg); color: var(--ins-ink); text-decoration: none; border-radius: 2px; }
+  .legend { font-size: 0.85rem; color: var(--muted); margin: 0.5rem 0 1rem; }
+  .legend del, .legend ins { padding: 0 0.25rem; }
+  ul.findings { list-style: none; padding: 0; margin: 0; }
+  ul.findings li {
+    padding: 0.4rem 0; border-bottom: 1px solid var(--line); font-size: 0.9rem;
+  }
+  ul.findings code, .fline {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+  }
+  .fline { color: var(--muted); margin-right: 0.4rem; }
+  ul.findings code { background: var(--panel); border: 1px solid var(--line); border-radius: 3px; padding: 0.05rem 0.3rem; }
+  .sev {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em;
+    border-radius: 3px; padding: 0.1rem 0.35rem; font-weight: 600;
+  }
+  .sev-error { background: var(--err-bg); color: var(--err); }
+  .sev-warning { background: var(--warn-bg); color: var(--warn); }
+  details summary {
+    cursor: pointer; font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 0.9rem; color: var(--accent); margin: 0.6rem 0;
+  }
+  p { max-width: 68ch; }
+</style>
+<div class="wrap">
+  <div class="eyebrow">ste-linter evaluation &middot; ASD-STE100</div>
+  <h1>Simplified Technical English: before &amp; after</h1>
+  <p class="lede">Claude (via the Claude Agent SDK) wrote a tech spec for
+  <strong>GitForge</strong>, a GitHub clone, with no style constraints. The
+  STE linter reviewed it, Claude applied the feedback, and the linter ran
+  again. Changes between the two versions are highlighted below.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="label">Baseline findings</div>
+      <div class="value">54</div>
+      <div class="sub">6 errors &middot; 48 warnings</div></div>
+    <div class="stat good"><div class="label">After one revision</div>
+      <div class="value">2</div>
+      <div class="sub">0 errors &middot; 2 warnings</div></div>
+    <div class="stat good"><div class="label">Reduction</div>
+      <div class="value">&minus;96%</div>
+      <div class="sub">one linter round-trip</div></div>
+  </div>
+
+  <h2>Findings by rule</h2>
+  <table>
+    <thead><tr><th>Rule</th><th class="num">Baseline</th><th class="num">Revised</th></tr></thead>
+    <tbody><tr><td>Sentence length</td><td class='num'>18</td><td class='num'>2</td></tr>
+<tr><td>Passive voice</td><td class='num'>3</td><td class='num'>0</td></tr>
+<tr><td>Unapproved words</td><td class='num'>23</td><td class='num'>0</td></tr>
+<tr><td>Semicolons</td><td class='num'>9</td><td class='num'>0</td></tr>
+<tr><td>-ing sentence openers</td><td class='num'>1</td><td class='num'>0</td></tr></tbody>
+  </table>
+
+  <h2>The specs, side by side</h2>
+  <p class="legend"><del>removed</del> text was rewritten or deleted;
+  <ins>added</ins> text is the STE-compliant replacement. Word-level diff of
+  the markdown source.</p>
+  <div class="diff">
+    <div class="pane"><h3>Baseline &mdash; no STE guidance</h3><pre># GitForge Technical Specification
+
+## Overview
+
+GitForge is a self-hosted, web-based Git hosting <del>platform providing</del> repository management, code review, and issue <del>tracking for teams</del> that <del>need to run their own infrastructure instead of relying on GitHub, GitLab,</del> or <del>Bitbucket. It targets engineering organizations with compliance, data-residency,</del> or <del>air-gapped</del> deployment <del>requirements, and offers a single-binary or Docker Compose deployment model to keep</del> operational overhead low.
+
+This spec covers the v1 <del>scope:</del> repository hosting over HTTP(S) and SSH, <del>authentication/permissions,</del> pull requests, issues, and the public API. <del>Out of</del> scope <del>for v1:</del> CI/CD runners, wikis, package registries, and federation between GitForge instances.
+
+## Goals
+
+- **Self-hostable in under 30 <del>minutes** via</del> Docker <del>Compose,</del> with a single <del>Postgres dependency and no external services required for core functionality.
+- **Git-native compatibility**: works with stock `git` CLI over SSH and HTTPS, no custom client required.
+- **Familiar UX** for engineers coming</del> from <del>GitHub: PRs, inline diff comments, issue linking, branch protection.
+- **Horizontally scalable** read path (clones/fetches) separate from the write path (pushes, API), so a single instance can grow from </del>10 to 10,000 repos.
+- **Auditable**: every permission change, merge, and <del>force-push is logged.</del>
+
+Non-goals for v1: multi-region replication, built-in CI, <del>marketplace/app</del> ecosystem.
+
+## Architecture
+
+GitForge <del>is split into</del> four services behind a reverse proxy:
+
+1. **Web/API server** <del>(Go) —</del> stateless HTTP service <del>serving</del> the REST <del>API and rendering</del> the web UI <del>(server-rendered +</del> a React SPA for <del>PR/diff views). Scales</del> horizontally behind a load balancer.
+2. **Git <del>daemon** —</del> handles <del>`git-upload-pack`/`git-receive-pack`</del> over SSH <del>(custom SSH </del>server <del>embedding `golang.org/x/crypto/ssh`) and</del> smart HTTP. <del>Talks</del> to a shared repository store.
+3. **Repository <del>storage** —</del> bare repos on a shared filesystem <del>(NFS/EFS</del> for small <del>deployments) or</del> per-shard local disk with a <del>repo→shard</del> mapping <del>table</del> for <del>larger deployments. Git objects are never stored in Postgres.
+4. **Postgres** — system of record</del> for <del>users, orgs, permissions, PRs, issues, comments, and webhooks. Redis is used</del> for <del>job queues (webhook delivery, PR diff pre-computation) and session/rate-limit</del> caching.
+
+```
+Client (git/ssh, git/https, browser)
+        │
+   Reverse Proxy (TLS termination)
+   ┌────┴─────┐
+   │          │
+Web/API    Git Daemon
+   │          │
+   └────┬─────┘
+        │
+  Repo Storage (bare repos)
+        │
+   Postgres + Redis
+```
+
+Background workers <del>(same binary, `--mode=worker`)</del> consume a Redis-backed queue for async work: webhook delivery, merge-conflict pre-check, search indexing <del>(via</del> Postgres full-text <del>initially; pluggable to</del> Elasticsearch <del>later).</del>
+
+## Core Features
+
+### Repository Hosting
+- <del>Create/fork/mirror repositories;</del> support for <del>bare repo storage with push-to-create disabled by default.
+- Push/pull over SSH (deploy keys + personal keys) and HTTPS (token-based auth).
+- Branch protection rules (require PR, require status checks, require N approvals, restrict force-push).
+- Web-based file browser, blame, and commit history rendered from `git cat-file`/`git log` via a Go git library (go-git or shelling out to `git` for perf-critical paths).
+- Large file support via Git LFS-compatible batch API in v1.1 (stubbed interface in v1).</del>
+
+### Authentication &amp; Permissions
+- Auth methods: <del>username/password</del> (bcrypt), SSH keys, personal access tokens (PATs) with scoped <del>permissions, and</del> OAuth2/OIDC for <del>SSO (v1:</del> generic OIDC <del>provider support).</del>
+- Authorization model: Organization → Team → Repository, with roles `read`, `triage`, `write`, `maintain`, `admin`, mirroring GitHub&#x27;s model for familiarity.
+- Repo visibility: `private`, `internal` (visible to all authenticated users), `public`.
+- <del>All</del> permission <del>checks centralized in a single `authz` package invoked by both</del> API handlers and the git daemon <del>(no</del> duplicated logic between HTTP and SSH <del>paths).</del>
+
+### Pull Requests
+- Fork-based and branch-based PRs within the same repo.
+- <del>Diff</del> view <del>computed via</del> `git diff --numstat` <del>+</del> `git <del>diff` per-file, cached</del> in <del>Redis</del> keyed by `(base_sha, head_sha)`.
+- Inline comments <del>anchored</del> to `(file_path, side, <del>line)`, resilient to</del> force-pushes <del>via</del> a best-effort line-remapping <del>using</del> the previous diff.
+- Merge strategies: merge commit, squash, rebase. <del>Merge executed server-side by the</del> git daemon <del>to keep</del> git plumbing in one place.
+- <del>Required</del> status checks <del>via</del> a generic &quot;check run&quot; <del>API so</del> external CI systems<del> can</del> report status.
+
+### Issues
+- Title, markdown body, labels, assignees, milestones.
+- <del>Cross-linking:</del> `Fixes #123` in PR <del>descriptions</del> auto-closes <del>issues</del> on <del>merge (parsed server-side, stored</del> as an explicit `issue_links` <del>table rather than regex-on-read).</del>
+- Comments <del>with reactions;</del> activity timeline (label changes, assignment, linked PR)<del> stored</del> as an append-only `events` table per issue.
+
+## API Design
+
+REST <del>+ JSON, versioned via</del> URL prefix <del>(`/api/v1/...`), modeled closely on</del> GitHub&#x27;s REST API to <del>ease client/tooling migration.</del>
+
+- Auth: `Authorization: Bearer &lt;PAT or OAuth token&gt;`.
+- Pagination: cursor-based (`?page_token=`), not offset-based, to stay stable under concurrent writes.
+- Key resources: `/repos/{owner}/{repo}`, `/repos/{owner}/{repo}/pulls`, `/repos/{owner}/{repo}/pulls/{n}/reviews`, `/repos/{owner}/{repo}/issues`, `/orgs/{org}/teams`.
+- Webhooks: per-repo and per-org, HMAC-signed <del>payloads, at-least-once</del> delivery with <del>exponential backoff (5 retries via the worker queue), delivery log visible in UI for debugging.
+- Rate limiting: token-bucket per-token, </del>`X-RateLimit-*` <del>headers, enforced at the</del> API gateway layer <del>via</del> Redis.
+- GraphQL <del>is explicitly deferred post-v1</del> pending demand.
+
+## Data Model
+
+Core Postgres tables (simplified):
+
+- `users(id, username, email, password_hash, created_at)`
+- `orgs(id, name)`, `teams(id, org_id, name)`, `team_memberships(team_id, user_id, role)`
+- `repositories(id, owner_type, owner_id, name, visibility, storage_shard, default_branch)`
+- `repo_permissions(repo_id, subject_type, subject_id, role)` — subject is a user or team
+- `pull_requests(id, repo_id, number, base_ref, head_ref, base_sha, head_sha, state, author_id)`
+- `reviews(id, pr_id, reviewer_id, state, submitted_at)`
+- `comments(id, target_type, target_id, author_id, body, line_anchor jsonb)`
+- `issues(id, repo_id, number, title, body, state, author_id)`
+- `issue_events(id, issue_id, type, actor_id, payload jsonb, created_at)`
+- `webhooks(id, target_type, target_id, url, secret, events text[])`
+
+Git object data lives entirely outside Postgres, on the repo storage <del>layer;</del> Postgres holds only metadata and pointers (SHAs), never blobs. This keeps the database small and backups <del>fast —</del> repo storage and Postgres<del> are backed up</del> independently.
+
+## Non-Functional Requirements
+
+- **Availability**: 99.9% target for <del>single-region deployments;</del> API and web <del>servers are stateless and horizontally scalable, git daemon scales similarly given shared storage.
+- **Performance**: p95 API latency &lt; 200ms for metadata endpoints; clone/fetch throughput bound by storage I/O, target parity with native `git-daemon`.
+- **Security**: all traffic TLS-only in production configs; secrets (webhook signing keys, OAuth client secrets) stored via env-injected secrets manager, never in Postgres in plaintext; audit log for auth changes, merges, force-pushes, and permission grants, retained 1 year.
+- **Backup/DR**: nightly Postgres logical backups + continuous WAL archiving; repo storage snapshotted independently; documented RPO of 15 minutes, RTO of 4 hours for v1.
+- **Observability**: structured logs (JSON), Prometheus metrics for request latency/queue depth/git operation counts, OpenTelemetry tracing across API → git daemon → storage.
+- **Upgrade path**: schema migrations via versioned SQL files applied automatically on startup with a `--migrate-only` dry-run mode;</del> zero-downtime rolling <del>upgrades for API/web tier.
+</del></pre></div>
+    <div class="pane"><h3>Revised &mdash; after linter feedback</h3><pre># GitForge Technical Specification
+
+## Overview
+
+GitForge is a self-hosted, web-based Git hosting <ins>platform. It gives teams</ins> repository management, code review, and issue <ins>tracking. Teams use GitForge when they must run their own infrastructure instead of GitHub, GitLab, or Bitbucket. GitForge targets engineering organizations</ins> that <ins>have compliance, data-residency,</ins> or <ins>air-gapped deployment needs. GitForge offers a single-binary deployment model</ins> or <ins>a Docker Compose</ins> deployment <ins>model. This keeps</ins> operational overhead low.
+
+This spec covers the v1 <ins>scope. The v1 scope includes</ins> repository hosting over HTTP(S) and SSH, <ins>authentication and permissions,</ins> pull requests, issues, and the public API. <ins>The v1</ins> scope <ins>does not include</ins> CI/CD runners, wikis, package registries, and federation between GitForge instances.
+
+## Goals
+
+- **Self-hostable in under 30 <ins>minutes**: Install GitForge through</ins> Docker <ins>Compose. GitForge needs only a single Postgres dependency. The core functions need no external services.
+- **Git-native compatibility**: GitForge works</ins> with <ins>the stock `git` CLI over SSH and HTTPS. You do not need a custom client.
+- **Familiar UX** for engineers coming from GitHub: PRs, inline diff comments, issue linking, branch protection.
+- **Horizontally scalable**: the read path (clones and fetches) is separate from the write path (pushes, API). This design lets </ins>a single <ins>instance grow</ins> from 10 to 10,000 repos.
+- **Auditable**: <ins>GitForge logs </ins>every permission change, merge, and <ins>force-push.</ins>
+
+Non-goals for v1: multi-region replication, built-in CI, <ins>marketplace and app</ins> ecosystem.
+
+## Architecture
+
+GitForge <ins>has</ins> four services behind a reverse proxy:
+
+1. **Web/API server** <ins>(Go): a</ins> stateless HTTP service <ins>that serves</ins> the REST <ins>API. It renders</ins> the web UI <ins>with server-rendered pages and</ins> a React SPA for <ins>the PR and diff views. The service scales</ins> horizontally behind a load balancer.
+2. **Git <ins>daemon**:</ins> handles <ins>`git-upload-pack` and `git-receive-pack`</ins> over <ins>SSH, through a custom </ins>SSH server <ins>that embeds `golang.org/x/crypto/ssh`. It also handles</ins> smart HTTP. <ins>It talks</ins> to a shared repository store.
+3. **Repository <ins>storage**:</ins> bare repos on a shared filesystem <ins>(NFS or EFS)</ins> for small <ins>deployments. Larger deployments use</ins> per-shard local disk with a <ins>repo-to-shard</ins> mapping <ins>table. Postgres never stores Git objects.
+4. **Postgres**: the system of record</ins> for <ins>users, orgs, permissions, PRs, issues, comments, and webhooks. GitForge uses Redis</ins> for <ins>job queues (webhook delivery and PR-diff pre-computation) and</ins> for <ins>session and rate-limit</ins> caching.
+
+```
+Client (git/ssh, git/https, browser)
+        │
+   Reverse Proxy (TLS termination)
+   ┌────┴─────┐
+   │          │
+Web/API    Git Daemon
+   │          │
+   └────┬─────┘
+        │
+  Repo Storage (bare repos)
+        │
+   Postgres + Redis
+```
+
+Background workers <ins>use the same binary with the `--mode=worker` flag. They</ins> consume a Redis-backed queue for async work: webhook delivery, merge-conflict pre-check, <ins>and </ins>search <ins>indexing. Search </ins>indexing <ins>uses</ins> Postgres full-text <ins>search at the start. It can use</ins> Elasticsearch <ins>later.</ins>
+
+## Core Features
+
+### Repository Hosting
+- <ins>Make, fork, or mirror repositories. GitForge supports bare repo storage, and it disables push-to-create by default.
+- Push and pull over SSH (deploy keys and personal keys) and over HTTPS (token-based auth).
+- Branch protection rules can need a PR, need status checks, need N approvals, or restrict force-pushes.
+- A web-based file browser shows blame and commit history. It renders this data from `git cat-file` and `git log` through a Go git library (go-git), or it shells out to `git` for paths that need high performance.
+- Large file</ins> support <ins>comes through a Git LFS-compatible batch API in v1.1. Version v1 has only a stubbed interface </ins>for <ins>this.</ins>
+
+### Authentication &amp; Permissions
+- Auth methods: <ins>username and password</ins> (bcrypt), SSH keys, <ins>and </ins>personal access tokens (PATs) with scoped <ins>permissions. GitForge also supports</ins> OAuth2/OIDC for <ins>SSO. In v1, GitForge supports a</ins> generic OIDC <ins>provider.</ins>
+- Authorization model: Organization → Team → Repository, with roles `read`, `triage`, `write`, `maintain`, `admin`, mirroring GitHub&#x27;s model for familiarity.
+- Repo visibility: `private`, `internal` (visible to all authenticated users), `public`.
+- <ins>A single `authz` package centralizes all</ins> permission <ins>checks. Both the</ins> API handlers and the git daemon <ins>invoke this package. This design avoids</ins> duplicated logic between <ins>the </ins>HTTP and SSH <ins>paths.</ins>
+
+### Pull Requests
+- Fork-based and branch-based PRs within the same repo.
+- <ins>GitForge computes the diff</ins> view <ins>through</ins> `git diff --numstat` <ins>and a per-file</ins> `git <ins>diff`. It caches the diff</ins> in <ins>Redis,</ins> keyed by `(base_sha, head_sha)`.
+- Inline comments <ins>anchor</ins> to `(file_path, side, <ins>line)`. The comments resist</ins> force-pushes <ins>through</ins> a best-effort line-remapping <ins>that uses</ins> the previous diff.
+- Merge strategies: merge commit, squash, <ins>or </ins>rebase. <ins>The</ins> git daemon <ins>does the merge on the server side. This keeps the</ins> git plumbing in one place.
+- <ins>Status checks: GitForge needs</ins> status checks <ins>through</ins> a generic &quot;check run&quot; <ins>API. This lets</ins> external CI systems report status.
+
+### Issues
+- Title, markdown body, labels, assignees, milestones.
+- <ins>When you write</ins> `Fixes #123` in <ins>a </ins>PR <ins>description, GitForge</ins> auto-closes <ins>the issue</ins> on <ins>merge. GitForge parses this server-side and stores it</ins> as an explicit `issue_links` <ins>table, instead of using regex-on-read.</ins>
+- Comments <ins>support reactions. GitForge stores the</ins> activity timeline (label changes, assignment, linked PR) as an append-only `events` table per issue.
+
+## API Design
+
+<ins>The API uses </ins>REST <ins>and JSON. GitForge versions the API through a</ins> URL prefix <ins>(`/api/v1/...`). The API design follows</ins> GitHub&#x27;s REST API <ins>closely, </ins>to <ins>make client and tooling migration easy.</ins>
+
+- Auth: `Authorization: Bearer &lt;PAT or OAuth token&gt;`.
+- Pagination: cursor-based (`?page_token=`), not offset-based, to stay stable under concurrent writes.
+- Key resources: `/repos/{owner}/{repo}`, `/repos/{owner}/{repo}/pulls`, `/repos/{owner}/{repo}/pulls/{n}/reviews`, `/repos/{owner}/{repo}/issues`, `/orgs/{org}/teams`.
+- Webhooks: <ins>GitForge sends webhooks </ins>per-repo and per-org, <ins>with </ins>HMAC-signed <ins>payloads. Delivery is at-least-once, with exponential backoff (5 retries through the worker queue). The</ins> delivery <ins>log is visible in the UI, for debugging.
+- Rate limiting: GitForge uses a token-bucket per token, </ins>with `X-RateLimit-*` <ins>headers. The</ins> API gateway layer <ins>enforces rate limits through</ins> Redis.
+- <ins>GitForge defers </ins>GraphQL <ins>until after v1,</ins> pending demand.
+
+## Data Model
+
+Core Postgres tables (simplified):
+
+- `users(id, username, email, password_hash, created_at)`
+- `orgs(id, name)`, `teams(id, org_id, name)`, `team_memberships(team_id, user_id, role)`
+- `repositories(id, owner_type, owner_id, name, visibility, storage_shard, default_branch)`
+- `repo_permissions(repo_id, subject_type, subject_id, role)` — subject is a user or team
+- `pull_requests(id, repo_id, number, base_ref, head_ref, base_sha, head_sha, state, author_id)`
+- `reviews(id, pr_id, reviewer_id, state, submitted_at)`
+- `comments(id, target_type, target_id, author_id, body, line_anchor jsonb)`
+- `issues(id, repo_id, number, title, body, state, author_id)`
+- `issue_events(id, issue_id, type, actor_id, payload jsonb, created_at)`
+- `webhooks(id, target_type, target_id, url, secret, events text[])`
+
+Git object data lives entirely outside Postgres, on the repo storage <ins>layer.</ins> Postgres holds only metadata and pointers (SHAs), <ins>and </ins>never <ins>holds </ins>blobs. This <ins>design </ins>keeps the database small and <ins>the </ins>backups <ins>fast. The team backs up</ins> repo storage and Postgres independently.
+
+## Non-Functional Requirements
+
+- **Availability**: <ins>the target is </ins>99.9% <ins>for single-region deployments. The API and web servers are stateless and horizontally scalable. The git daemon scales in the same way, given shared storage.
+- **Performance**: the p95 API latency </ins>target <ins>is under 200ms </ins>for <ins>metadata endpoints. Storage I/O bounds the clone and fetch throughput. The target is parity with the native `git-daemon`.
+- **Security**: in production configs, all traffic is TLS-only. GitForge stores secrets (webhook signing keys, OAuth client secrets) through an env-injected secrets manager. GitForge never stores secrets in Postgres in plaintext. The audit log covers auth changes, merges, force-pushes, and permission grants. The team keeps the audit log for 1 year.
+- **Backup and DR**: GitForge makes nightly Postgres logical backups, and it archives WAL continuously. The team snapshots repo storage independently. The documented RPO is 15 minutes. The documented RTO is 4 hours for v1.
+- **Observability**: GitForge produces structured logs (JSON). Prometheus metrics cover request latency, queue depth, and git operation counts. OpenTelemetry tracing covers the path from API, to git daemon, to storage.
+- **Upgrade path**: GitForge applies schema migrations automatically on startup, through versioned SQL files. A `--migrate-only` flag gives a dry-run mode. The</ins> API and web <ins>tier support</ins> zero-downtime rolling <ins>upgrades.
+</ins></pre></div>
+  </div>
+
+  <h2>Remaining findings in the revision</h2>
+  <ul class="findings"><li><span class='fline'>line 7</span> <span class='sev sev-warning'>warning</span> Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction. <code>The v1 scope includes repository hosting over HTTP(S) and SSH, authent</code></li>
+<li><span class='fline'>line 51</span> <span class='sev sev-warning'>warning</span> Sentence has 23 words (maximum 20 for procedures). Split it if it is an instruction. <code>It renders this data from                and           through a Go gi</code></li></ul>
+
+  <h2>All baseline findings</h2>
+  <details><summary>Show the full list (54)</summary>
+  <ul class="findings"><li><span class='fline'>line 5</span> <span class='sev sev-error'>error</span> Sentence has 33 words (maximum 25 for descriptive text). Split it into shorter sentences. <code>GitForge is a self-hosted, web-based Git hosting platform providing re</code></li>
+<li><span class='fline'>line 5</span> <span class='sev sev-warning'>warning</span> Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction. <code>It targets engineering organizations with compliance, data-residency, </code></li>
+<li><span class='fline'>line 5</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;providing&quot;: use &quot;give&quot; or &quot;supply&quot;. <code>providing</code></li>
+<li><span class='fline'>line 7</span> <span class='sev sev-warning'>warning</span> Sentence has 22 words (maximum 20 for procedures). Split it if it is an instruction. <code>This spec covers the v1 scope: repository hosting over HTTP(S) and SSH</code></li>
+<li><span class='fline'>line 11</span> <span class='sev sev-warning'>warning</span> Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction. <code>Self-hostable in under 30 minutes  via Docker Compose, with a single P</code></li>
+<li><span class='fline'>line 11</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 11</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;required&quot;: use &quot;need&quot; or &quot;must have&quot;. <code>required</code></li>
+<li><span class='fline'>line 11</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;functionality&quot;: use &quot;function(s)&quot;. <code>functionality</code></li>
+<li><span class='fline'>line 12</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;required&quot;: use &quot;need&quot; or &quot;must have&quot;. <code>required</code></li>
+<li><span class='fline'>line 14</span> <span class='sev sev-warning'>warning</span> Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction. <code>Horizontally scalable  read path (clones/fetches) separate from the wr</code></li>
+<li><span class='fline'>line 15</span> <span class='sev sev-error'>error</span> Passive voice (&quot;is logged&quot;): use the active voice. Name who or what does the action. <code>is logged</code></li>
+<li><span class='fline'>line 23</span> <span class='sev sev-warning'>warning</span> Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction. <code>Web/API server  (Go) — stateless HTTP service serving the REST API and</code></li>
+<li><span class='fline'>line 25</span> <span class='sev sev-error'>error</span> Sentence has 26 words (maximum 25 for descriptive text). Split it into shorter sentences. <code>Repository storage  — bare repos on a shared filesystem (NFS/EFS for s</code></li>
+<li><span class='fline'>line 26</span> <span class='sev sev-error'>error</span> Passive voice (&quot;is used&quot;): use the active voice. Name who or what does the action. <code>is used</code></li>
+<li><span class='fline'>line 43</span> <span class='sev sev-warning'>warning</span> Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction. <code>Background workers (same binary,                ) consume a Redis-back</code></li>
+<li><span class='fline'>line 43</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 43</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;initially&quot;: use &quot;at the start&quot;. <code>initially</code></li>
+<li><span class='fline'>line 43</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Background workers (same binary,                ) consume a</code></li>
+<li><span class='fline'>line 48</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;Create&quot;: use &quot;make&quot;. <code>Create</code></li>
+<li><span class='fline'>line 48</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Create/fork/mirror repositories; support for bare repo stora</code></li>
+<li><span class='fline'>line 50</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;require&quot;: use &quot;need&quot; or &quot;must have&quot;. <code>require</code></li>
+<li><span class='fline'>line 50</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;require&quot;: use &quot;need&quot; or &quot;must have&quot;. <code>require</code></li>
+<li><span class='fline'>line 50</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;require&quot;: use &quot;need&quot; or &quot;must have&quot;. <code>require</code></li>
+<li><span class='fline'>line 51</span> <span class='sev sev-warning'>warning</span> Sentence has 22 words (maximum 20 for procedures). Split it if it is an instruction. <code>Web-based file browser, blame, and commit history rendered from       </code></li>
+<li><span class='fline'>line 51</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 52</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 55</span> <span class='sev sev-warning'>warning</span> Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction. <code>Auth methods: username/password (bcrypt), SSH keys, personal access to</code></li>
+<li><span class='fline'>line 58</span> <span class='sev sev-warning'>warning</span> Sentence has 25 words (maximum 20 for procedures). Split it if it is an instruction. <code>All permission checks centralized in a single         package invoked </code></li>
+<li><span class='fline'>line 62</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 63</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 64</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;executed&quot;: use &quot;do&quot; or &quot;start&quot;. <code>executed</code></li>
+<li><span class='fline'>line 65</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;Required&quot;: use &quot;need&quot; or &quot;must have&quot;. <code>Required</code></li>
+<li><span class='fline'>line 65</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 69</span> <span class='sev sev-warning'>warning</span> Sentence starts with the -ing form &quot;Cross-linking&quot;. Rewrite with a finite verb (for example: &quot;When you X...&quot; or an imperative). <code>Cross-linking:              in PR descriptions auto-closes i</code></li>
+<li><span class='fline'>line 70</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Comments with reactions; activity timeline (label changes, a</code></li>
+<li><span class='fline'>line 74</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 79</span> <span class='sev sev-warning'>warning</span> Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction. <code>Webhooks: per-repo and per-org, HMAC-signed payloads, at-least-once de</code></li>
+<li><span class='fline'>line 79</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 80</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 98</span> <span class='sev sev-warning'>warning</span> Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction. <code>Git object data lives entirely outside Postgres, on the repo storage l</code></li>
+<li><span class='fline'>line 98</span> <span class='sev sev-error'>error</span> Passive voice (&quot;are backed&quot;): use the active voice. Name who or what does the action. <code>are backed</code></li>
+<li><span class='fline'>line 98</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Git object data lives entirely outside Postgres, on the repo</code></li>
+<li><span class='fline'>line 102</span> <span class='sev sev-warning'>warning</span> Sentence has 23 words (maximum 20 for procedures). Split it if it is an instruction. <code>Availability : 99.9% target for single-region deployments; API and web</code></li>
+<li><span class='fline'>line 102</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Availability : 99.9% target for single-region deployments; A</code></li>
+<li><span class='fline'>line 103</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Performance : p95 API latency &lt; 200ms for metadata endpoints</code></li>
+<li><span class='fline'>line 104</span> <span class='sev sev-error'>error</span> Sentence has 37 words (maximum 25 for descriptive text). Split it into shorter sentences. <code>Security : all traffic TLS-only in production configs; secrets (webhoo</code></li>
+<li><span class='fline'>line 104</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Security : all traffic TLS-only in production configs; secre</code></li>
+<li><span class='fline'>line 104</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 105</span> <span class='sev sev-warning'>warning</span> Sentence has 24 words (maximum 20 for procedures). Split it if it is an instruction. <code>Backup/DR : nightly Postgres logical backups + continuous WAL archivin</code></li>
+<li><span class='fline'>line 105</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Backup/DR : nightly Postgres logical backups + continuous WA</code></li>
+<li><span class='fline'>line 106</span> <span class='sev sev-warning'>warning</span> Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction. <code>Observability : structured logs (JSON), Prometheus metrics for request</code></li>
+<li><span class='fline'>line 107</span> <span class='sev sev-warning'>warning</span> Sentence has 23 words (maximum 20 for procedures). Split it if it is an instruction. <code>Upgrade path : schema migrations via versioned SQL files applied autom</code></li>
+<li><span class='fline'>line 107</span> <span class='sev sev-warning'>warning</span> Unapproved word &quot;via&quot;: use &quot;through&quot; or &quot;by&quot;. <code>via</code></li>
+<li><span class='fline'>line 107</span> <span class='sev sev-warning'>warning</span> Do not use semicolons. Write two short sentences. <code>Upgrade path : schema migrations via versioned SQL files app</code></li></ul>
+  </details>
+</div>

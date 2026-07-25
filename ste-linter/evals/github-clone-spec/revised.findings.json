@@ -1,0 +1,27 @@
+[
+  {
+    "file": "revised.md",
+    "summary": {
+      "errors": 0,
+      "warnings": 2
+    },
+    "findings": [
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 7,
+        "col": 1,
+        "message": "Sentence has 21 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "The v1 scope includes repository hosting over HTTP(S) and SSH, authentication an..."
+      },
+      {
+        "rule": "sentence-length",
+        "severity": "warning",
+        "line": 51,
+        "col": 1,
+        "message": "Sentence has 23 words (maximum 20 for procedures). Split it if it is an instruction.",
+        "excerpt": "It renders this data from                and           through a Go git library ..."
+      }
+    ]
+  }
+]

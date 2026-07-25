@@ -256,6 +256,33 @@
       ]
     },
     {
+      "name": "ste-linter",
+      "source": "./ste-linter",
+      "description": "Simplified Technical English (ASD-STE100) linter for technical prose: sentence length, active voice, controlled dictionary, and more.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Jack Michaud"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/jack-michaud/faire",
+      "repository": "https://github.com/jack-michaud/faire",
+      "keywords": [
+        "ste",
+        "asd-ste100",
+        "simplified-technical-english",
+        "linter",
+        "technical-writing",
+        "documentation"
+      ],
+      "category": "writing",
+      "tags": [
+        "linter",
+        "writing",
+        "documentation",
+        "ste"
+      ]
+    },
+    {
       "name": "inline-experiential-learning",
       "source": "./inline-experiential-learning",
       "description": "Detects non-trivial workflows at session end and suggests saving them as project skills in .claude/skills/.",

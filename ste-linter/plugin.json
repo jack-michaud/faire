@@ -1,0 +1,10 @@
+{
+  "name": "ste-linter",
+  "version": "0.1.0",
+  "description": "Simplified Technical English (ASD-STE100) linter for technical prose: sentence length, active voice, controlled dictionary, and more.",
+  "author": {
+    "name": "Jack Michaud"
+  },
+  "license": "MIT",
+  "skills": "./skills/"
+}
